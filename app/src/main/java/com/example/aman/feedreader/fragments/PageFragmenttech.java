@@ -1,9 +1,10 @@
-package com.example.aman.feedreader;
+package com.example.aman.feedreader.fragments;
 
 import android.os.Bundle;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.aman.feedreader.IShowedFragment;
+import com.example.aman.feedreader.MainActivity;
+import com.example.aman.feedreader.R;
+import com.example.aman.feedreader.RssDataController;
+import com.example.aman.feedreader.RssDataController2;
 import com.example.aman.feedreader.myadapter.CardAdapter;
 import com.example.aman.feedreader.myadapter.postData;
 
@@ -25,7 +31,7 @@ import java.util.List;
  * Created by aman on 11/12/15.
  */
 // In this case, the fragment displays simple text based on the page
-public class PageFragmentTwo extends Fragment {
+public class PageFragmenttech extends Fragment implements IShowedFragment{
     public static final String ARG_PAGE = "ARG_PAGE";
 
     private int mPage;
@@ -36,17 +42,12 @@ public class PageFragmentTwo extends Fragment {
 
 
 
-
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_page, container, false);
 
-        Log.i("Got in? ", "yes");
 
 
      /*   Log.i("container:"," "+container);
@@ -62,25 +63,61 @@ public class PageFragmentTwo extends Fragment {
 
         //assiging listData
 
-        if(RssDataController.listData!=null) {
-            Log.i("Here are you1? ","yes");
-            newsDetailses = RssDataController.listData;
-            mAdapter = new CardAdapter(newsDetailses);
-            mRecyclerView.setAdapter(mAdapter);
 
 
             //finished
-            MainActivity.viewPager.setVisibility(View.VISIBLE);
-            MainActivity.pb.setVisibility(View.GONE);
-        }
-        else{
-            Log.i("Here are you? ","yes");
-            Toast.makeText(MainActivity.con,"No adapter for you.",Toast.LENGTH_SHORT).show();
 
-        }
+
 
 
 
         return view;
+    }
+
+    @Override
+    public void onShowedFragment() {
+        if(MainActivity.RSS_done[3]==0)
+        {
+            RssDataController2 rc = new RssDataController2();
+            rc.execute("http://news.google.co.in/news?cf=all&hl=en&pz=1&ned=in&topic=tc&output=rss","tech");
+
+
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+            if((MainActivity.t_listData!=null))
+            {
+            Log.i("Here are you tech? ","yes");
+
+            newsDetailses =MainActivity.t_listData;
+            mAdapter = new CardAdapter(newsDetailses,"tech");
+            mRecyclerView.setAdapter(mAdapter);
+
+            MainActivity.RSS_done[3]=1;
+            MainActivity.viewPager.setVisibility(View.VISIBLE);
+           }
+        else{
+            Log.i("Here are you tech2? ", "yes");
+            Toast.makeText(MainActivity.con,"No adapter for you.",Toast.LENGTH_SHORT).show();
+
+            }
+
+        }
+
+        },MainActivity.wait_time);
+
+
+        }
+
+        else{
+            newsDetailses =MainActivity.t_listData;
+            mAdapter = new CardAdapter(newsDetailses,"tech");
+            mRecyclerView.setAdapter(mAdapter);
+            MainActivity.viewPager.setVisibility(View.VISIBLE);
+            Toast.makeText(MainActivity.con, "Inside t_showed fragment.", Toast.LENGTH_SHORT).show();
+
+        }
     }
 }

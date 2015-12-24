@@ -1,31 +1,26 @@
-package com.example.aman.feedreader;
+package com.example.aman.feedreader.fragments;
 
 import android.os.Bundle;
 
 
-import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.aman.feedreader.myadapter.CardAdapter;
+import com.example.aman.feedreader.IShowedFragment;
+import com.example.aman.feedreader.MainActivity;
+import com.example.aman.feedreader.R;
 import com.example.aman.feedreader.myadapter.postData;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by aman on 11/12/15.
  */
 // In this case, the fragment displays simple text based on the page
-public class PageFragment extends Fragment {
+public class PageFragment extends Fragment implements IShowedFragment{
     public static final String ARG_PAGE = "ARG_PAGE";
 
     private int mPage;
@@ -89,5 +84,10 @@ public class PageFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onShowedFragment() {
+
     }
 }

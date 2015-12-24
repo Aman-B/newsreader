@@ -1,13 +1,11 @@
 package com.example.aman.feedreader;
 
 import android.app.ProgressDialog;
-import android.appwidget.AppWidgetHost;
 import android.graphics.Bitmap;
 import android.net.ParseException;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 
 
 import com.example.aman.feedreader.myadapter.DownloadImages;
@@ -41,11 +39,13 @@ public class RssDataController extends
     //saving image urls
     public static String[] image_urls = new String[10];
 
-    //save returned images from DownloadImages
-  public static  Bitmap[] got_images= new Bitmap[10];
+
+
 
     private MainActivity.RSSXMLTag currentTag;
-    public static postData[] listData;
+    public static postData[] listData=null;
+
+
     int i=0;
     int img_index=0;
     public ProgressDialog ringProgressDialog;
@@ -63,27 +63,21 @@ public class RssDataController extends
         super.onPreExecute();
 
 
-    /* ringProgressDialog= ProgressDialog.show(MainActivity.con,"Please wait...","Downloading stuff", true);
-
-        ringProgressDialog.setCancelable(true);*/
-
-
-
-
     }
 
     @Override
     protected ArrayList doInBackground(String... params) {
 // TODO Auto-generated method stub
         String urlStr = params[0];
+       MainActivity.news_type =params[1];
         InputStream is = null;
         ArrayList postDataList = new ArrayList();
         try {
             URL url = new URL(urlStr);
             HttpURLConnection connection = (HttpURLConnection) url
                     .openConnection();
-            connection.setReadTimeout(10 * 1000);
-            connection.setConnectTimeout(10 * 1000);
+            connection.setReadTimeout(MainActivity.rsstime_out);
+            connection.setConnectTimeout(MainActivity.rsstime_out);
             connection.setRequestMethod("GET");
             connection.setDoInput(true);
             connection.connect();
@@ -100,7 +94,7 @@ public class RssDataController extends
 
             int eventType = xpp.getEventType();
             postData pdData = null;
-            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, DD MMM yyyy HH:MM:SS");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, DD MMM yyyy");
             while (eventType != XmlPullParser.END_DOCUMENT)
             {
 
@@ -308,14 +302,11 @@ public class RssDataController extends
       //  Log.i("Lel ", MainActivity.con+"---"+R.layout.postitem+"---"+listData);
 
         DownloadImages downimgs = new DownloadImages();
-        try { got_images=downimgs.execute(image_urls).get();
+        downimgs.execute(image_urls);
 
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+
+
         Log.i("Insider:2","yes");
        /* if(downimgs.getStatus().equals(AsyncTask.Status.FINISHED))*/ {
 
@@ -352,9 +343,42 @@ public class RssDataController extends
        //
    //MyProgressDialog. ringProgressDialog.dismiss();
 
+
+
+        switch (MainActivity.news_type)
+        {
+            case "world":
+                MainActivity.w_listData=listData;
+                MainActivity.RSS_done[0]=1;
+                break;
+
+
+            case "busy":
+                MainActivity.b_listData=listData;
+                break;
+
+            case "sports":
+                MainActivity.sp_listData=listData;
+                break;
+
+            case "science":
+                MainActivity.sc_listData=listData;
+                break;
+
+        /*    default:
+                MainActivity.n_listData=listData;
+                break;*/
+        }
+
+
         //finish
-        Log.i("Again?","yes");
-        MainActivity.viewPager.setAdapter(new SampleFragmentPagerAdapter(MainActivity.spa,MainActivity.con));
+        Log.i("Again?", "yes");
+        //MainActivity.viewPager.setAdapter(new SampleFragmentPagerAdapter(MainActivity.spa,MainActivity.con));
+        Log.i("Again?","val "+MainActivity.sampleFragmentPagerAdapter);
+          // MainActivity.sampleFragmentPagerAdapter.notifyDataSetChanged();
+       /* MainActivity.viewPager.setVisibility(View.VISIBLE);
+        MainActivity.pb.setVisibility(View.GONE);*/
+
 
 
     }

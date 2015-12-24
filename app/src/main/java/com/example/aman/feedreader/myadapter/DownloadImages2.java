@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.aman.feedreader.MainActivity;
 import com.example.aman.feedreader.RssDataController;
+import com.example.aman.feedreader.RssDataController2;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -16,9 +17,9 @@ import java.net.URL;
 /**
  * Created by aman on 5/11/15.
  */
-public class DownloadImages extends AsyncTask <String[],URI,Bitmap[]>{
+public class DownloadImages2 extends AsyncTask <String[],URI,Bitmap[]>{
 
-static boolean  image= false;
+    static boolean  image= false;
     public static String[] img_urls= new String[10];
     @Override
     protected void onPostExecute(Bitmap[] bitmap) {
@@ -28,30 +29,39 @@ static boolean  image= false;
         Log.i("Insider:1", "yes");
 
 
-            switch (MainActivity.news_type) {
-                case "world":
-                    Log.i("Got in?", "w_images " + MainActivity.w_got_images);
-                    MainActivity.w_got_images =bitmap;
+        switch (MainActivity.news_type2) {
+            case "nation":
+                Log.i("Got in?", "n_images " + MainActivity.n_got_images);
+                MainActivity.n_got_images =bitmap;
 
-                    break;
-
-                case "busy":
-                    Log.i("Got in?", "b_images " + MainActivity.b_got_images);
-                    MainActivity.b_got_images =bitmap;
                 break;
 
-                case "sports":
-                    Log.i("Got in?", "sp_images " + MainActivity.sp_got_images);
-                    MainActivity.sp_got_images =bitmap;
 
-                    break;
 
-                case "science":
-                    Log.i("Got in?", "sc_images " + MainActivity.sc_got_images);
-                    MainActivity.sc_got_images =bitmap;
-                    break;
+            case "tech":
+                Log.i("Got in?", "t_images " + MainActivity.t_got_images);
+                MainActivity.t_got_images =bitmap;
 
-            }
+                break;
+
+
+            case "enter":
+                Log.i("Got in?", "e_images " + MainActivity.e_got_images);
+                MainActivity.e_got_images =bitmap;
+
+                break;
+
+
+            case "health":
+                Log.i("Got in?", "h_images " + MainActivity.h_got_images);
+                MainActivity.h_got_images =bitmap;
+
+                break;
+
+
+
+
+        }
 
 
     }
