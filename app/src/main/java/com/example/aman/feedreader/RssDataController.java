@@ -6,8 +6,10 @@ import android.net.ParseException;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 
+import com.example.aman.feedreader.fragments.ShowError;
 import com.example.aman.feedreader.myadapter.DownloadImages;
 
 import com.example.aman.feedreader.myadapter.postData;
@@ -49,6 +51,14 @@ public class RssDataController extends
     int i=0;
     int img_index=0;
     public ProgressDialog ringProgressDialog;
+    private OnAsyncTaskCompleted listener;
+
+
+
+    public RssDataController(OnAsyncTaskCompleted onAsyncTaskCompleted) {
+
+        listener= onAsyncTaskCompleted;
+    }
 
     @Override
     protected void onProgressUpdate(Integer... values) {
@@ -61,7 +71,6 @@ public class RssDataController extends
     protected void onPreExecute()
     {
         super.onPreExecute();
-
 
     }
 
@@ -263,16 +272,22 @@ public class RssDataController extends
             connection.disconnect();
         } catch (MalformedURLException e) {
 // TODO Auto-generated catch block
+
             e.printStackTrace();
         } catch (IOException e)
         {
 // TODO Auto-generated catch block
+
             e.printStackTrace();
         } catch (XmlPullParserException e) {
+
 // TODO Auto-generated catch block
+            Toast.makeText(MainActivity.con,"Error occured. Try refreshing.",Toast.LENGTH_SHORT).show();
+
             e.printStackTrace();
         } catch (ParseException e) {
 // TODO Auto-generated catch block
+
             e.printStackTrace();
         } catch (java.text.ParseException e) {
             e.printStackTrace();
@@ -289,6 +304,7 @@ public class RssDataController extends
         //Log.d("message" + i++, "" + mainString.substring(startIndex, endIndex));
         endString = mainString.substring(startIndex, endIndex);
         //Log.d("Here: ", endString);
+
         return endString;
 
     }
@@ -302,8 +318,9 @@ public class RssDataController extends
       //  Log.i("Lel ", MainActivity.con+"---"+R.layout.postitem+"---"+listData);
 
         DownloadImages downimgs = new DownloadImages();
-        downimgs.execute(image_urls);
-
+        if(image_urls!=null) {
+            downimgs.execute(image_urls);
+        }
 
 
 
@@ -318,7 +335,7 @@ public class RssDataController extends
               //  System.out.println("data : " + result.get(i).toString());
                 listData[i] = (postData) result.get(i);
 
-               // System.out.println("data : " + result.get(i).toString());
+               Log.d("data1: " ,""+ result.get(i).toString());
             }
 
 
@@ -344,33 +361,38 @@ public class RssDataController extends
    //MyProgressDialog. ringProgressDialog.dismiss();
 
 
+        if(listData[0].postTitle!=null) {
+            switch (MainActivity.news_type) {
+                case "world":
+                    MainActivity.w_listData = listData;
+                    listener.onAsyncTaskCompleted();
+                    break;
 
-        switch (MainActivity.news_type)
-        {
-            case "world":
-                MainActivity.w_listData=listData;
-                MainActivity.RSS_done[0]=1;
-                break;
 
+                case "busy":
+                    MainActivity.b_listData = listData;
+                    listener.onAsyncTaskCompleted();
+                    break;
 
-            case "busy":
-                MainActivity.b_listData=listData;
-                break;
+                case "sports":
+                    MainActivity.sp_listData = listData;
+                    listener.onAsyncTaskCompleted();
+                    break;
 
-            case "sports":
-                MainActivity.sp_listData=listData;
-                break;
-
-            case "science":
-                MainActivity.sc_listData=listData;
-                break;
+                case "science":
+                    MainActivity.sc_listData = listData;
+                    listener.onAsyncTaskCompleted();
+                    break;
 
         /*    default:
                 MainActivity.n_listData=listData;
                 break;*/
+            }
+
         }
-
-
+        else{
+            listener.onAsyncTaskInComplete();
+        }
         //finish
         Log.i("Again?", "yes");
         //MainActivity.viewPager.setAdapter(new SampleFragmentPagerAdapter(MainActivity.spa,MainActivity.con));

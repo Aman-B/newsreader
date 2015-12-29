@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.aman.feedreader.IShowedFragment;
 import com.example.aman.feedreader.MainActivity;
+import com.example.aman.feedreader.OnAsyncTaskCompleted;
 import com.example.aman.feedreader.R;
 import com.example.aman.feedreader.RssDataController;
 import com.example.aman.feedreader.myadapter.CardAdapter;
@@ -30,7 +31,7 @@ import java.util.List;
  * Created by aman on 11/12/15.
  */
 // In this case, the fragment displays simple text based on the page
-public class PageFragmentsports extends Fragment implements IShowedFragment{
+public class PageFragmentsports extends Fragment implements IShowedFragment, OnAsyncTaskCompleted {
     public static final String ARG_PAGE = "ARG_PAGE";
 
     private int mPage;
@@ -38,8 +39,7 @@ public class PageFragmentsports extends Fragment implements IShowedFragment{
     private LinearLayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
     public postData[] newsDetailses=new postData[10];
-
-
+    private String prev_lang;
 
 
     @Override
@@ -71,44 +71,89 @@ public class PageFragmentsports extends Fragment implements IShowedFragment{
 
 
         if(MainActivity.RSS_done[4]==0) {
-            RssDataController rc = new RssDataController();
-            rc.execute("http://news.google.co.in/news?cf=all&hl=en&pz=1&ned=in&topic=s&output=rss","sports");
+            executeRSS();
 
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if ((MainActivity.sp_listData != null)) {
 
-                        Log.i("Here are you sports? ", "yes");
-
-                        newsDetailses = MainActivity.sp_listData;
-                        mAdapter = new CardAdapter(newsDetailses, "sports");
-                        mRecyclerView.setAdapter(mAdapter);
-
-                        MainActivity.RSS_done[4] = 1;
-                        //finished
-                      MainActivity.viewPager.setVisibility(View.VISIBLE);
-
-                    } else {
-                        Log.i("Here are you sports2? ", "yes");
-                        Toast.makeText(MainActivity.con, "No adapter for you.", Toast.LENGTH_SHORT).show();
-
-                    }
-                }
-
-            }, MainActivity.wait_time);
+           // waitAndSetData();
 
 
         }
         else{
-            Toast.makeText(MainActivity.con, "Inside showed fragment.", Toast.LENGTH_SHORT).show();
-
-            newsDetailses = MainActivity.sp_listData;
-            mAdapter = new CardAdapter(newsDetailses, "sports");
-            mRecyclerView.setAdapter(mAdapter);
-            MainActivity.viewPager.setVisibility(View.VISIBLE);
+           showAlreadySavedData();
         }
 
+    }
+
+    @Override
+    public void showAlreadySavedData() {
+        if(MainActivity.lang.equals(prev_lang)) {
+
+            setUpAdapterWithData();
+        }
+        else
+        {
+            executeRSS();
+           // waitAndSetData();
+        }
+    }
+
+    @Override
+    public void executeRSS() {
+        RssDataController rc = new RssDataController(this);
+        rc.execute("http://news.google.co.in/news?cf=all&hl="+MainActivity.lang+"&pz=1&ned=in&topic=s&output=rss","sports");
+        prev_lang=MainActivity.lang;
+    }
+
+    @Override
+    public void setUpAdapterWithData() {
+        Log.i("Here are you sports? ", "yes");
+
+        newsDetailses = MainActivity.sp_listData;
+        mAdapter = new CardAdapter(newsDetailses, "sports");
+        mRecyclerView.setAdapter(mAdapter);
+
+        MainActivity.RSS_done[4] = 1;
+        //finished
+        MainActivity.viewPager.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void retryDataSetting() {
+
+                if ((MainActivity.sp_listData != null)) {
+                    setUpAdapterWithData();
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.con, "No connection, try again", Toast.LENGTH_SHORT).show();
+                }
+
+    }
+
+
+
+    @Override
+    public void waitAndSetData() {
+
+                if ((MainActivity.sp_listData != null)) {
+
+                   setUpAdapterWithData();
+                } else {
+                    retryDataSetting();
+
+                }
+
+
+    }
+
+    @Override
+    public void onAsyncTaskCompleted() {
+        waitAndSetData();
+    }
+
+    @Override
+    public void onAsyncTaskInComplete() {
+        retryDataSetting();
     }
 }

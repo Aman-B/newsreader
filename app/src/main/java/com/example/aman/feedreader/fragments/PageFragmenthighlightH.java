@@ -32,7 +32,7 @@ import java.util.List;
  * Created by aman on 11/12/15.
  */
 // In this case, the fragment displays simple text based on the page
-public class PageFragmentnation extends Fragment implements IShowedFragment,OnAsyncTaskCompleted {
+public class PageFragmenthighlightH extends Fragment implements IShowedFragment,OnAsyncTaskCompleted {
     public static final String ARG_PAGE = "ARG_PAGE";
 
     private int mPage;
@@ -122,7 +122,7 @@ MainActivity.viewPager.setVisibility(View.GONE);
 
     @Override
     public void onShowedFragment() {
-        if(MainActivity.RSS_done[1]==0)
+        if(MainActivity.RSS_done[9]==0)
         {
             executeRSS();
             //waitAndSetData();
@@ -130,7 +130,7 @@ MainActivity.viewPager.setVisibility(View.GONE);
         }
 
         else{
-        showAlreadySavedData();
+            showAlreadySavedData();
 
         }
 
@@ -139,16 +139,11 @@ MainActivity.viewPager.setVisibility(View.GONE);
 
     @Override
     public void showAlreadySavedData() {
-       // Toast.makeText(MainActivity.con, "Inside showed fragment.", Toast.LENGTH_SHORT).show();
-        if(MainActivity.lang.equals(prev_lang)) {
+        Toast.makeText(MainActivity.con, "Inside showed fragment.", Toast.LENGTH_SHORT).show();
 
-            setUpAdapterWithData();
-        }
-        else
-        {
             executeRSS();
             //waitAndSetData();
-        }
+
     }
 
 
@@ -156,7 +151,7 @@ MainActivity.viewPager.setVisibility(View.GONE);
     @Override
     public void executeRSS() {
         RssDataController2 rc = new RssDataController2(this);
-        rc.execute("http://news.google.co.in/news?cf=all&hl="+MainActivity.lang+"&pz=1&ned=in&topic=n&output=rss", "nation");
+        rc.execute("http://news.google.co.in/news?cf=all&hl=hi&ned=hi_in&output=rss", "high_hin");
         prev_lang=MainActivity.lang;
 
     }
@@ -166,10 +161,8 @@ MainActivity.viewPager.setVisibility(View.GONE);
         newsDetailses = MainActivity.n_listData;
         mAdapter = new CardAdapter(newsDetailses, "nation");
         mRecyclerView.setAdapter(mAdapter);
-
-            MainActivity.viewPager.setVisibility(View.VISIBLE);
-
-        MainActivity.RSS_done[1] = 1;
+        MainActivity.viewPager.setVisibility(View.VISIBLE);
+        MainActivity.RSS_done[9] = 1;
     }
 
     @Override
@@ -179,13 +172,13 @@ MainActivity.viewPager.setVisibility(View.GONE);
         handler1.postDelayed(new Runnable() {
             @Override
             public void run() {*/
-                if ((MainActivity.n_listData != null)) {
-                    setUpAdapterWithData();
-                }
-                else
-                {
-                    Toast.makeText(MainActivity.con, "No connection, try again.", Toast.LENGTH_SHORT).show();
-                }
+        if ((MainActivity.hh_listData != null)) {
+            setUpAdapterWithData();
+        }
+        else
+        {
+            Toast.makeText(MainActivity.con, "No adapter for you.", Toast.LENGTH_SHORT).show();
+        }
          /*   }
         }, (MainActivity.rsstime_out - MainActivity.wait_time));*/
 
@@ -198,15 +191,15 @@ MainActivity.viewPager.setVisibility(View.GONE);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {*/
-                if ((MainActivity.n_listData != null)) {
-                    setUpAdapterWithData();
-                }
+        if ((MainActivity.hh_listData != null)) {
+            setUpAdapterWithData();
+        }
 
-                else {
-                  retryDataSetting();
+        else {
+            retryDataSetting();
 
 
-                }
+        }
 
 
        /*     }

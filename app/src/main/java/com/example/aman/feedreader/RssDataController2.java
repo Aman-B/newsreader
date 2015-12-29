@@ -39,6 +39,7 @@ public class RssDataController2 extends
 
     //saving image urls
     public static String[] image_urls = new String[10];
+    private  OnAsyncTaskCompleted listener;
 
     //save returned images from DownloadImages
 
@@ -51,6 +52,15 @@ public class RssDataController2 extends
     int i=0;
     int img_index=0;
     public ProgressDialog ringProgressDialog;
+
+
+
+    public RssDataController2(OnAsyncTaskCompleted onAsyncTaskCompleted) {
+
+        listener= onAsyncTaskCompleted;
+    }
+
+
 
     @Override
     protected void onProgressUpdate(Integer... values) {
@@ -350,16 +360,28 @@ public class RssDataController2 extends
         {
             case "nation":
                 MainActivity.n_listData=listData;
+                Log.i("nation", ""+MainActivity.n_listData);
+                listener.onAsyncTaskCompleted();
                 break;
+
             case "tech":
                 MainActivity.t_listData=listData;
+                listener.onAsyncTaskCompleted();
+                break;
 
             case "enter":
                 MainActivity.e_listData=listData;
+                listener.onAsyncTaskCompleted();
                 break;
 
             case "health":
                 MainActivity.h_listData=listData;
+                listener.onAsyncTaskCompleted();
+                break;
+
+            case "high_hin":
+                MainActivity.hh_listData=listData;
+                listener.onAsyncTaskCompleted();
                 break;
 
         /*    default:

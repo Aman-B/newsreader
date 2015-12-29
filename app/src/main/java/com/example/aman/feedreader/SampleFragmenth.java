@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by aman on 11/12/15.
  */
-public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
+public class SampleFragmenth extends FragmentPagerAdapter {
     final int PAGE_COUNT = 6;
     private String tabTitles[] = new String[] { MainActivity.con.getResources().getString(R.string.world),
             MainActivity.con.getResources().getString(R.string.nation),  MainActivity.con.getResources().getString(R.string.busy),
@@ -34,7 +34,7 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
             MainActivity.con.getResources().getString(R.string.health)};
     private Context context;
 
-    public SampleFragmentPagerAdapter(FragmentManager fm, Context context) {
+    public SampleFragmenth(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
     }
@@ -54,26 +54,26 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-            switch(position)
-            {
-                case 0:
+        switch(position)
+        {
+            case 0:
 
-                        Log.i("Goin' in? ", "yes");
-                        return new PageFragmentworld();
+                Log.i("Goin' in? ", "yes");
+                return new PageFragmentworld();
 
-                case 1:
-
-
-                        Log.i("Goin' in? ", "yes");
-                        return new PageFragmentnation();
+            case 1:
 
 
+                Log.i("Goin' in? ", "yes");
+                return new PageFragmentnation();
 
-               case 2:
 
 
-                       Log.i("Goin' in? ", "yes");
-                       return new PageFragmentbusy();
+            case 2:
+
+
+                Log.i("Goin' in? ", "yes");
+                return new PageFragmentbusy();
 
 
 
@@ -84,18 +84,18 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
                          return new PageFragmenttech();*/
 
 
-                case 3:
+            case 3:
 
 
-                        Log.i("Goin' in? ", "yes");
-                        return new PageFragmentsports();
+                Log.i("Goin' in? ", "yes");
+                return new PageFragmentsports();
 
 
-                case 4:
+            case 4:
 
 
-                        Log.i("Goin' in? ", "yes");
-                        return new PageFragmententer();
+                Log.i("Goin' in? ", "yes");
+                return new PageFragmententer();
 
                 /*case 6:
 
@@ -103,15 +103,15 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
                         return new PageFragmentscience();*/
 
 
-                case 5:
+            case 5:
 
-                        Log.i("Goin' in? ", "yes");
-                        return new PageFragmenthealth();
-                default:
-                  return  new PageFragmentworld();
-            }
-
+                Log.i("Goin' in? ", "yes");
+                return new PageFragmenthealth();
+            default:
+                return  new PageFragmentworld();
         }
+
+    }
 
 
     @Override

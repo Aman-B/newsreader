@@ -1,11 +1,14 @@
 package com.example.aman.feedreader;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.nfc.tech.IsoDep;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -22,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static  postData[] t_listData=null;
     public static  postData[] e_listData=null;
     public static  postData[] h_listData=null;
+    public static postData[]  hh_listData=null; //hindi highlights
 
     //save returned images from DownloadImages
     public static  Bitmap[] w_got_images= new Bitmap[10];
@@ -54,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static  Bitmap[] h_got_images= new Bitmap[10];
 
 
+    public static Bitmap[] hh_got_images = new Bitmap[10];
+
 
     public static Context con;
     public static int async_rssfinished= 0;
@@ -64,12 +71,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static android.support.v4.app.FragmentManager spa;
     public static String news_type,news_type2;
     public  static SampleFragmentPagerAdapter sampleFragmentPagerAdapter;
+    public  static SampleFragmenth sfh;
     public static int RSS_lock;
-    public static int [] RSS_done = new int[8];
+    public static int [] RSS_done = new int[10];
 
 
     public static String net_type;
     public static int rsstime_out, wait_time;
+
+    public static String lang="en";
+
+  public  static Activity activity;
+
 
     public enum RSSXMLTag {
         TITLE, DATE, LINK, CONTENT, GUID, IGNORETAG, RSSXMLTag,IMAGE,DESC;
@@ -91,6 +104,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        Activity activity = MainActivity.this;
+
+
+
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -107,7 +125,7 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
 
             String type= nts.getNetworkClass(con);
             nts.setTimeValues();
-            Toast.makeText(con,"Network type: "+type,Toast.LENGTH_SHORT).show();
+           // Toast.makeText(con,"Network type: "+type,Toast.LENGTH_SHORT).show();
             Log.i("Network type : ", " "+type);
 
 
@@ -116,7 +134,7 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
 
         }   else
         {
-            Toast.makeText(con, "Damn! No internet connection. ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(con, " No internet connection. ", Toast.LENGTH_SHORT).show();
             pb.setVisibility(View.GONE);
         }
 
@@ -138,37 +156,55 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
         // Get the ViewPager and set it's PagerAdapter so that it can display items
 
 
-         sampleFragmentPagerAdapter = new
-                SampleFragmentPagerAdapter(getSupportFragmentManager(),MainActivity.this);
+        Log.d("Lang change: "," "+lang);
 
-
-        viewPager.setAdapter(sampleFragmentPagerAdapter);
-
-        viewPager.addOnPageChangeListener(this);
+    /*    if(MainActivity.lang.equals("hi"))
+        {
+            sfh=  new SampleFragmenth(getSupportFragmentManager(),MainActivity.this);
+            viewPager.setAdapter(sfh);
+        }*/
+          /*else*/ {
+            sampleFragmentPagerAdapter = new
+                    SampleFragmentPagerAdapter(getSupportFragmentManager(),MainActivity.this);
+            viewPager.setAdapter(sampleFragmentPagerAdapter);
+        }
+            viewPager.addOnPageChangeListener(this);
             viewPager.setOffscreenPageLimit(1);
 
-        // Give the TabLayout the ViewPager
+            // Give the TabLayout the ViewPager
 
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setOnTabSelectedListener(this);
+            tabLayout.setupWithViewPager(viewPager);
+            tabLayout.setOnTabSelectedListener(this);
 
        /* viewPager.setVisibility(View.GONE);*/
+            news_type = "world";
+            viewPager.setVisibility(View.GONE);
+
+        Handler handler= new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+        Fragment fragment = (Fragment) sampleFragmentPagerAdapter.instantiateItem(viewPager,0);
 
 
+            ((IShowedFragment) fragment).onShowedFragment();
+            }
+        },2000);
 
-        news_type="world";
-        RSS_lock=1;
        /* checkIfOnlineAndLaunchRss();
 */
 
 
     }
 
+/*
     private void checkIfOnlineAndLaunchRss() {
 
 
         {
-            RssDataController rc = new RssDataController();
+            */
+/*RssDataController rc = new RssDataController();*//*
+
             switch(news_type)
             {
                 case "world":
@@ -202,7 +238,9 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
                 case "health":
                     rc.execute("http://news.google.co.in/news?cf=all&hl=en&pz=1&ned=in&topic=m&output=rss");
                     break;
-            /*.execute("http://news.google.co.in/news?cf=all&hl=hi&ned=hi_in&output=rss");*/
+            */
+/*.execute("http://news.google.co.in/news?cf=all&hl=hi&ned=hi_in&output=rss");*//*
+
             }
         }
 
@@ -211,6 +249,7 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
             pb.setVisibility(View.GONE);
         }
     }
+*/
 
 
 
@@ -241,7 +280,28 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_refresh) {
+
+            NetworkandTimeSetting nts = new NetworkandTimeSetting();
+
+            if(nts.isOnline())
+            {
+
+                String type= nts.getNetworkClass(con);
+                nts.setTimeValues();
+                Toast.makeText(con,"Network type: "+type,Toast.LENGTH_SHORT).show();
+                Log.i("Network type : ", " "+type);
+
+
+                setupnews();
+
+
+            }   else
+            {
+                Toast.makeText(con, " No internet connection. ", Toast.LENGTH_SHORT).show();
+                pb.setVisibility(View.GONE);
+            }
+
             return true;
         }
 
@@ -255,9 +315,14 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.action_select_language) {
+            DialogCreator dc = new DialogCreator();
+            dc.createDialog(MainActivity.this);
+            item.setCheckable(true);
+            item.setChecked(false);
+            //handle language change settings
+        }
+        /*else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -267,7 +332,7 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
 
         } else if (id == R.id.nav_send) {
 
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -287,10 +352,12 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
 
           //  Toast.makeText(con,"Page : "+(position+1),Toast.LENGTH_SHORT).show();
         }
+
         viewPager.setVisibility(View.GONE);
         Fragment fragment = (Fragment) sampleFragmentPagerAdapter.instantiateItem(viewPager,position);
         if(fragment instanceof IShowedFragment)
         {
+
             ((IShowedFragment) fragment).onShowedFragment();
         }
 

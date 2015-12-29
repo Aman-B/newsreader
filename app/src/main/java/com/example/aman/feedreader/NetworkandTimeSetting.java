@@ -62,19 +62,19 @@ public class NetworkandTimeSetting {
         {
             case "WIFI":
                 MainActivity.rsstime_out=10000;
-                MainActivity.wait_time=6000;
+                MainActivity.wait_time=4000;
                 break;
             case "2G":
                 MainActivity.rsstime_out=20000;
-                MainActivity.wait_time=10000;
+                MainActivity.wait_time=7000;
                 break;
             case"3G":
                 MainActivity.rsstime_out=10000;
-                MainActivity.wait_time=6000;
+                MainActivity.wait_time=5000;
                 break;
             case "4G":
                 MainActivity.rsstime_out=10000;
-                MainActivity.wait_time=5000;
+                MainActivity.wait_time=4000;
                 break;
             default:
                 MainActivity.rsstime_out=10000;

@@ -2,8 +2,10 @@ package com.example.aman.feedreader.myadapter;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -109,7 +111,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         }
         else
         {
-            holder.n_image.setImageResource(R.mipmap.ic_launcher);
+            holder.n_image.setImageResource(R.mipmap.images);
         }
        holder.n_headline.setText(c_newsDetailses[position].postTitle);
         holder.n_date.setText(c_newsDetailses[position].postDate);
@@ -154,7 +156,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
             int position =getAdapterPosition();
 
-            Toast.makeText(MainActivity.con,"Clicked: "+position,Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(MainActivity.con,"Clicked: "+position,Toast.LENGTH_SHORT).show();
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(c_newsDetailses[position].postLink));
 
 
@@ -167,8 +169,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             /*actionButtonBundle.putParcelable(KEY_CUSTOM_TABS_ICON, "");
             actionButtonBundle.putParcelable(KEY_CUSTOM_TABS_PENDING_INTENT, pendingIntent);*/
             //browserIntent.putExtra(EXTRA_CUSTOM_TABS_ACTION_BUTTON_BUNDLE, actionButtonBundle);
-
-            Bitmap icon = BitmapFactory.decodeResource(MainActivity.con.getResources(), R.mipmap.ic_launcher);
+            Resources resources=MainActivity.con.getResources();
+            Bitmap icon = BitmapFactory.decodeResource(resources, R.mipmap.ic_action_back);
             browserIntent.putExtra(EXTRA_CLOSE_BUTTON_ICON,
                    icon);
 
@@ -180,7 +182,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             Bundle startBundle = ActivityOptions.makeCustomAnimation(MainActivity.con,
                     R.anim.slide_in_right, R.anim.slide_out_left).toBundle();
 
-            browserIntent.putExtra("android.support.customtabs.extra.TOOLBAR_COLOR",R.color.colorAccent);
+            browserIntent.putExtra("android.support.customtabs.extra.TOOLBAR_COLOR", Color.parseColor("#303F9F"));
             browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             MainActivity.con.startActivity(browserIntent,startBundle);
 

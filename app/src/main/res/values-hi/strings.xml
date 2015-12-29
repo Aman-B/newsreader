@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hindi">हिंदी</string>
+    <string name="english">अंग्रेज़ी</string>
+
+    <string name="highlights">सुर्खियाँ</string>
+    <string name="world">विश्व</string>
+    <string name="nation">देश</string>
+    <string name="busy">व्यापार</string>
+    <string name="tech">टेक्नालजी</string>
+    <string name="sports">खेल</string>
+    <string name="enter">मनोरंजन</string>
+    <string name="science">विज्ञान</string>
+    <string name="health">स्वास्थ्य</string>
+
+
+
+</resources>

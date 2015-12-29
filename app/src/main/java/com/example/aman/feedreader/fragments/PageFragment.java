@@ -90,4 +90,29 @@ public class PageFragment extends Fragment implements IShowedFragment{
     public void onShowedFragment() {
 
     }
+
+    @Override
+    public void showAlreadySavedData() {
+
+    }
+
+    @Override
+    public void executeRSS() {
+
+    }
+
+    @Override
+    public void setUpAdapterWithData() {
+
+    }
+
+    @Override
+    public void retryDataSetting() {
+
+    }
+
+    @Override
+    public void waitAndSetData() {
+
+    }
 }

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.aman.feedreader.IShowedFragment;
 import com.example.aman.feedreader.MainActivity;
+import com.example.aman.feedreader.OnAsyncTaskCompleted;
 import com.example.aman.feedreader.R;
 import com.example.aman.feedreader.RssDataController;
 import com.example.aman.feedreader.myadapter.CardAdapter;
@@ -30,7 +31,7 @@ import java.util.List;
  * Created by aman on 11/12/15.
  */
 // In this case, the fragment displays simple text based on the page
-public class PageFragmentscience extends Fragment implements IShowedFragment{
+public class PageFragmentscience extends Fragment implements IShowedFragment, OnAsyncTaskCompleted {
     public static final String ARG_PAGE = "ARG_PAGE";
 
     private int mPage;
@@ -38,9 +39,7 @@ public class PageFragmentscience extends Fragment implements IShowedFragment{
     private LinearLayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
     public postData[] newsDetailses=new postData[10];
-
-
-
+    private String prev_lang;
 
 
     @Override
@@ -71,56 +70,97 @@ public class PageFragmentscience extends Fragment implements IShowedFragment{
     public void onShowedFragment() {
 
 
-            RssDataController rc = new RssDataController();
-            rc.execute("http://news.google.co.in/news?cf=all&hl=en&pz=1&ned=in&topic=snc&output=rss", "science");
+
 
         if(MainActivity.RSS_done[6]==0)
         {
-
+            executeRSS();
+          //  waitAndSetData();
             //assiging listData
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if((MainActivity.sc_listData!=null)) {
-
-                        Log.i("Here are you science? ","yes");
-
-                        newsDetailses = MainActivity.sc_listData;
-                        mAdapter = new CardAdapter(newsDetailses,"science");
-                        mRecyclerView.setAdapter(mAdapter);
-                        MainActivity.RSS_done[6]=1;
-
-                        //finished
-                        MainActivity.viewPager.setVisibility(View.VISIBLE);
-
-
-                    }
-                    else{
-                        Log.i("Here are you science2? ", "yes");
-                        Toast.makeText(MainActivity.con,"No adapter for you.",Toast.LENGTH_SHORT).show();
-                        //finished
-                        if(MainActivity.RSS_lock==7) {
-                            MainActivity.viewPager.setVisibility(View.VISIBLE);
-                            MainActivity.pb.setVisibility(View.GONE);
-                        }
-                    }
-                }
-
-            },MainActivity.wait_time);
 
         }
 
         else{
-            newsDetailses = MainActivity.sc_listData;
-            mAdapter = new CardAdapter(newsDetailses,"science");
-            mRecyclerView.setAdapter(mAdapter);
-            MainActivity.RSS_done[6]=1;
-
-            //finished
-            MainActivity.viewPager.setVisibility(View.VISIBLE);
+            setUpAdapterWithData();
         }
 
 
+    }
+
+    @Override
+    public void showAlreadySavedData() {
+        Toast.makeText(MainActivity.con, "Inside showed fragment.", Toast.LENGTH_SHORT).show();
+        if(MainActivity.lang.equals(prev_lang)) {
+
+            setUpAdapterWithData();
+        }
+        else
+        {
+            executeRSS();
+            //waitAndSetData();
+        }
+    }
+
+    @Override
+    public void executeRSS() {
+        RssDataController rc = new RssDataController(this);
+        rc.execute("http://news.google.co.in/news?cf=all&hl="+MainActivity.lang+"&pz=1&ned=in&topic=snc&output=rss", "science");
+        prev_lang=MainActivity.lang;
+    }
+
+    @Override
+    public void setUpAdapterWithData() {
+        Log.i("Here are you science? ","yes");
+
+        newsDetailses = MainActivity.sc_listData;
+        mAdapter = new CardAdapter(newsDetailses,"science");
+        mRecyclerView.setAdapter(mAdapter);
+        MainActivity.RSS_done[6]=1;
+
+        //finished
+        MainActivity.viewPager.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void retryDataSetting() {
+
+                if ((MainActivity.sc_listData != null)) {
+                    setUpAdapterWithData();
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.con, "No adapter for you.", Toast.LENGTH_SHORT).show();
+                }
+
+
+    }
+
+    @Override
+    public void waitAndSetData() {
+
+                if((MainActivity.sc_listData!=null)) {
+
+                    setUpAdapterWithData();
+
+                }
+                else{
+                  retryDataSetting();
+
+                }
+
+
+
+
+    }
+
+    @Override
+    public void onAsyncTaskCompleted() {
+        waitAndSetData();
+    }
+
+    @Override
+    public void onAsyncTaskInComplete() {
+        retryDataSetting();
     }
 }

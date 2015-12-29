@@ -58,6 +58,11 @@ public class DownloadImages2 extends AsyncTask <String[],URI,Bitmap[]>{
 
                 break;
 
+            case "high_hin":
+                Log.i("Got in?", "h_images " + MainActivity.hh_got_images);
+                MainActivity.hh_got_images=bitmap;
+                break;
+
 
 
 
