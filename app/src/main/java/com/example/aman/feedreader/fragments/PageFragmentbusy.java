@@ -3,9 +3,6 @@ package com.example.aman.feedreader.fragments;
 import android.os.Bundle;
 
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,20 +10,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aman.feedreader.IShowedFragment;
 import com.example.aman.feedreader.MainActivity;
+import com.example.aman.feedreader.NextActivity;
 import com.example.aman.feedreader.OnAsyncTaskCompleted;
 import com.example.aman.feedreader.R;
 import com.example.aman.feedreader.RssDataController;
-import com.example.aman.feedreader.RssDataController2;
 import com.example.aman.feedreader.myadapter.CardAdapter;
 import com.example.aman.feedreader.myadapter.postData;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by aman on 11/12/15.
@@ -41,6 +34,7 @@ public class PageFragmentbusy extends Fragment implements IShowedFragment, OnAsy
     RecyclerView.Adapter mAdapter;
     public postData[] newsDetailses = new postData[10];
     private String prev_lang;
+    private String calling_activity;
 
 
     @Override
@@ -72,7 +66,8 @@ public class PageFragmentbusy extends Fragment implements IShowedFragment, OnAsy
     }
 
     @Override
-    public void onShowedFragment() {
+    public void onShowedFragment(String activity) {
+        calling_activity=activity;
         if (MainActivity.RSS_done[2] == 0) {
            executeRSS();
        //     waitAndSetData();
@@ -115,7 +110,8 @@ public class PageFragmentbusy extends Fragment implements IShowedFragment, OnAsy
         mAdapter = new CardAdapter(newsDetailses, "busy");
         mRecyclerView.setAdapter(mAdapter);
         MainActivity.RSS_done[2] = 1;
-        MainActivity.viewPager.setVisibility(View.VISIBLE);
+        ShowViewPager showViewPager = new ShowViewPager();
+        showViewPager.show(calling_activity);
 
     }
 

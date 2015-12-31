@@ -182,7 +182,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             Bundle startBundle = ActivityOptions.makeCustomAnimation(MainActivity.con,
                     R.anim.slide_in_right, R.anim.slide_out_left).toBundle();
 
-            browserIntent.putExtra("android.support.customtabs.extra.TOOLBAR_COLOR", Color.parseColor("#303F9F"));
+            browserIntent.putExtra("android.support.customtabs.extra.TOOLBAR_COLOR", Color.parseColor("#0097A7"));
             browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             MainActivity.con.startActivity(browserIntent,startBundle);
 

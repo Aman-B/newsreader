@@ -29,8 +29,8 @@ public class SampleFragmenth extends FragmentPagerAdapter {
     final int PAGE_COUNT = 6;
     private String tabTitles[] = new String[] { MainActivity.con.getResources().getString(R.string.world),
             MainActivity.con.getResources().getString(R.string.nation),  MainActivity.con.getResources().getString(R.string.busy),
-          /*  MainActivity.con.getResources().getString(R.string.tech),*/ MainActivity.con.getResources().getString(R.string.sports),
-            MainActivity.con.getResources().getString(R.string.enter)  , /*MainActivity.con.getResources().getString(R.string.science),*/
+           /* MainActivity.con.getResources().getString(R.string.tech),*/ MainActivity.con.getResources().getString(R.string.sports),
+            MainActivity.con.getResources().getString(R.string.enter)  ,/* MainActivity.con.getResources().getString(R.string.science),*/
             MainActivity.con.getResources().getString(R.string.health)};
     private Context context;
 
@@ -77,11 +77,13 @@ public class SampleFragmenth extends FragmentPagerAdapter {
 
 
 
-                /* case 3:
+/*
+                 case 3:
 
 
                          Log.i("Goin' in? ", "yes");
-                         return new PageFragmenttech();*/
+                         return new PageFragmenttech();
+*/
 
 
             case 3:
@@ -97,7 +99,7 @@ public class SampleFragmenth extends FragmentPagerAdapter {
                 Log.i("Goin' in? ", "yes");
                 return new PageFragmententer();
 
-                /*case 6:
+               /* case 6:
 
                         Log.i("Goin' in? ", "yes");
                         return new PageFragmentscience();*/

@@ -360,38 +360,40 @@ public class RssDataController extends
        //
    //MyProgressDialog. ringProgressDialog.dismiss();
 
+        try {
+            if ((listData[0].postTitle != null)) {
+                switch (MainActivity.news_type) {
+                    case "world":
+                        MainActivity.w_listData = listData;
+                        listener.onAsyncTaskCompleted();
+                        break;
 
-        if(listData[0].postTitle!=null) {
-            switch (MainActivity.news_type) {
-                case "world":
-                    MainActivity.w_listData = listData;
-                    listener.onAsyncTaskCompleted();
-                    break;
 
+                    case "busy":
+                        MainActivity.b_listData = listData;
+                        listener.onAsyncTaskCompleted();
+                        break;
 
-                case "busy":
-                    MainActivity.b_listData = listData;
-                    listener.onAsyncTaskCompleted();
-                    break;
+                    case "sports":
+                        MainActivity.sp_listData = listData;
+                        listener.onAsyncTaskCompleted();
+                        break;
 
-                case "sports":
-                    MainActivity.sp_listData = listData;
-                    listener.onAsyncTaskCompleted();
-                    break;
-
-                case "science":
-                    MainActivity.sc_listData = listData;
-                    listener.onAsyncTaskCompleted();
-                    break;
+                    case "science":
+                        MainActivity.sc_listData = listData;
+                        listener.onAsyncTaskCompleted();
+                        break;
 
         /*    default:
                 MainActivity.n_listData=listData;
                 break;*/
-            }
+                }
 
+            }
         }
-        else{
+        catch (NullPointerException npe){
             listener.onAsyncTaskInComplete();
+
         }
         //finish
         Log.i("Again?", "yes");

@@ -5,7 +5,7 @@ package com.example.aman.feedreader;
  */
 public interface IShowedFragment {
 
-    public void onShowedFragment();
+    public void onShowedFragment(String activity);
     public void showAlreadySavedData();
     public void executeRSS();
     public void setUpAdapterWithData();

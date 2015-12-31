@@ -1,13 +1,8 @@
 package com.example.aman.feedreader;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.nfc.tech.IsoDep;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -19,19 +14,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.aman.feedreader.myadapter.postData;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
 
@@ -94,7 +84,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //checkIfOnlineAndLaunchRss();
-        con = getApplicationContext();  Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        con = getApplicationContext();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         pb=(ProgressBar) findViewById(R.id.pbr);
         spa=getSupportFragmentManager();
@@ -187,7 +178,7 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
         Fragment fragment = (Fragment) sampleFragmentPagerAdapter.instantiateItem(viewPager,0);
 
 
-            ((IShowedFragment) fragment).onShowedFragment();
+            ((IShowedFragment) fragment).onShowedFragment("main");
             }
         },2000);
 
@@ -333,9 +324,9 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
         } else if (id == R.id.nav_send) {
 
         }*/
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 // Page change listener
@@ -358,7 +349,7 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
         if(fragment instanceof IShowedFragment)
         {
 
-            ((IShowedFragment) fragment).onShowedFragment();
+            ((IShowedFragment) fragment).onShowedFragment("main");
         }
 
 

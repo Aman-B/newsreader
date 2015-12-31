@@ -29,6 +29,7 @@ public class DialogCreator implements View.OnClickListener, RadioGroup.OnChecked
     Locale myLocale;
     RadioGroup radioGroup;
     Context context;
+    Intent refresh;
     public void createDialog(Context context)
     {
         this.context=context;
@@ -96,16 +97,30 @@ public class DialogCreator implements View.OnClickListener, RadioGroup.OnChecked
         res.updateConfiguration(conf, dm);
         Log.i("Locale is set", " " + MainActivity.lang);
 
-        Intent refresh = new Intent(MainActivity.con, MainActivity.class);
+        choseActivity(MainActivity.lang);
+
         refresh.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        refresh.putExtra("language", MainActivity.lang);
         ((Activity)context).finish();
         MainActivity.con.startActivity(refresh);
         Log.i("Locale is set", " " + MainActivity.lang);
 
     }
 
+    private void choseActivity(String lang) {
+        switch (lang)
+        {
+            case "en":
+                refresh = new Intent(MainActivity.con, MainActivity.class);
+                break;
 
+            case"hi":
+                refresh= new Intent(MainActivity.con,NextActivity.class);
+                break;
 
+        }
+
+    }
 
 
 }

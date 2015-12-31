@@ -26,11 +26,11 @@ import java.util.concurrent.ExecutionException;
  * Created by aman on 11/12/15.
  */
 public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
-    final int PAGE_COUNT = 6;
+    final int PAGE_COUNT = 8;
     private String tabTitles[] = new String[] { MainActivity.con.getResources().getString(R.string.world),
             MainActivity.con.getResources().getString(R.string.nation),  MainActivity.con.getResources().getString(R.string.busy),
-          /*  MainActivity.con.getResources().getString(R.string.tech),*/ MainActivity.con.getResources().getString(R.string.sports),
-            MainActivity.con.getResources().getString(R.string.enter)  , /*MainActivity.con.getResources().getString(R.string.science),*/
+            MainActivity.con.getResources().getString(R.string.tech), MainActivity.con.getResources().getString(R.string.sports),
+            MainActivity.con.getResources().getString(R.string.enter)  , MainActivity.con.getResources().getString(R.string.science),
             MainActivity.con.getResources().getString(R.string.health)};
     private Context context;
 
@@ -77,33 +77,33 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
 
 
 
-                /* case 3:
+                 case 3:
 
 
                          Log.i("Goin' in? ", "yes");
-                         return new PageFragmenttech();*/
-
-
-                case 3:
-
-
-                        Log.i("Goin' in? ", "yes");
-                        return new PageFragmentsports();
+                         return new PageFragmenttech();
 
 
                 case 4:
 
 
                         Log.i("Goin' in? ", "yes");
-                        return new PageFragmententer();
-
-                /*case 6:
-
-                        Log.i("Goin' in? ", "yes");
-                        return new PageFragmentscience();*/
+                        return new PageFragmentsports();
 
 
                 case 5:
+
+
+                        Log.i("Goin' in? ", "yes");
+                        return new PageFragmententer();
+
+                case 6:
+
+                        Log.i("Goin' in? ", "yes");
+                        return new PageFragmentscience();
+
+
+                case 7:
 
                         Log.i("Goin' in? ", "yes");
                         return new PageFragmenthealth();

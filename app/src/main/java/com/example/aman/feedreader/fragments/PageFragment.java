@@ -87,7 +87,7 @@ public class PageFragment extends Fragment implements IShowedFragment{
     }
 
     @Override
-    public void onShowedFragment() {
+    public void onShowedFragment(String activity) {
 
     }
 

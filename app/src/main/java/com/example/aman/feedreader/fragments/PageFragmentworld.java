@@ -1,14 +1,8 @@
 package com.example.aman.feedreader.fragments;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,22 +10,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aman.feedreader.IShowedFragment;
 import com.example.aman.feedreader.MainActivity;
+import com.example.aman.feedreader.NextActivity;
 import com.example.aman.feedreader.OnAsyncTaskCompleted;
 import com.example.aman.feedreader.R;
 import com.example.aman.feedreader.RssDataController;
 import com.example.aman.feedreader.Sharedpref;
 import com.example.aman.feedreader.myadapter.CardAdapter;
-import com.example.aman.feedreader.myadapter.DownloadImages;
 import com.example.aman.feedreader.myadapter.postData;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by aman on 11/12/15.
@@ -47,6 +36,7 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
     public postData[] w_newsDetailses=new postData[10];
 
     public String prev_lang=null;
+    public String calling_activity;
 
    /* @Override
     public void onDestroyView() {
@@ -143,7 +133,8 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
     }
 
     @Override
-    public void onShowedFragment() {
+    public void onShowedFragment(String activity) {
+        calling_activity=activity;
         if(MainActivity.RSS_done[0]==0)
         {
             Log.i("got showed","yes");
@@ -180,6 +171,9 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
 
     }
 
+
+
+
     public void executeRSS() {
         RssDataController rc = new RssDataController(this);
         rc.execute("http://news.google.co.in/news?cf=all&hl="+MainActivity.lang+"&pz=1&ned=in&topic=w&output=rss", "world");
@@ -211,10 +205,10 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
 
 
     public void setUpAdapterWithData() {
-Handler handler = new Handler();
+/*Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
-            public void run() {
+            public void run() {*/
 //                Log.i("Datam :", " " + MainActivity.w_listData[0].postTitle);
                 Log.i("Data :", " " + w_newsDetailses);
                 w_newsDetailses = MainActivity.w_listData;
@@ -223,13 +217,13 @@ Handler handler = new Handler();
                 mAdapter = new CardAdapter(w_newsDetailses, "world");
                 mRecyclerView.setAdapter(mAdapter);
                 MainActivity.RSS_done[0] = 1;
+                ShowViewPager showViewPager= new ShowViewPager();
+                showViewPager.show(calling_activity);
 
 
-                MainActivity.viewPager.setVisibility(View.VISIBLE);
-
-            }
+        /*    }
         }, 0000);
-
+*/
 
 
     }
