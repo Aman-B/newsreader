@@ -18,14 +18,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aman.feedreader.MainActivity;
+import com.example.aman.feedreader.OnDownloadImagesComplete;
 import com.example.aman.feedreader.R;
 import com.example.aman.feedreader.RssDataController;
 import com.example.aman.feedreader.RssDataController2;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by aman on 12/12/15.
  */
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> implements OnDownloadImagesComplete {
 
     public postData[] c_newsDetailses;
     private static final String EXTRA_CUSTOM_TABS_SESSION = "android.support.customtabs.extra.SESSION";
@@ -70,52 +72,74 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
+        try {
+            if (c_newsDetailses[position].postThumbUrl != null) {
 
-        if(c_newsDetailses[position].postThumbUrl!=null)
-        {switch (c_newstype)
+                Picasso.with(MainActivity.con).load(c_newsDetailses[position].postThumbUrl).into(holder.n_image);
+             /*   switch (c_newstype)
 
-        {
-            case "world":
-                holder.n_image.setImageBitmap(MainActivity.w_got_images[position]);
-                break;
+                {
 
-            case "nation":
-                holder.n_image.setImageBitmap(MainActivity.n_got_images[position]);
-                break;
+                    case "high":
+                        holder.n_image.setImageBitmap(MainActivity.hh_got_images[position]);
+                        break;
 
-            case "busy":
-                holder.n_image.setImageBitmap(MainActivity.b_got_images[position]);
-                break;
+                    case "world":
+                        holder.n_image.setImageBitmap(MainActivity.w_got_images[position]);
+                        break;
 
-            case "tech":
-                holder.n_image.setImageBitmap(MainActivity.t_got_images[position]);
-                break;
+                    case "nation":
+                        holder.n_image.setImageBitmap(MainActivity.n_got_images[position]);
+                        break;
 
-            case "sports":
-                holder.n_image.setImageBitmap(MainActivity.sp_got_images[position]);
-                break;
+                    case "busy":
+                        holder.n_image.setImageBitmap(MainActivity.b_got_images[position]);
+                        break;
 
-            case "enter":
-                holder.n_image.setImageBitmap(MainActivity.e_got_images[position]);
-                break;
+                    case "tech":
+                        holder.n_image.setImageBitmap(MainActivity.t_got_images[position]);
+                        break;
 
-            case "science":
-                holder.n_image.setImageBitmap(MainActivity.sc_got_images[position]);
-                break;
+                    case "sports":
+                        holder.n_image.setImageBitmap(MainActivity.sp_got_images[position]);
+                        break;
 
-            case "health":
-                holder.n_image.setImageBitmap(MainActivity.h_got_images[position]);
-                break;
+                    case "enter":
+                        holder.n_image.setImageBitmap(MainActivity.e_got_images[position]);
+                        break;
+
+                    case "science":
+                        holder.n_image.setImageBitmap(MainActivity.sc_got_images[position]);
+                        break;
+
+                    case "health":
+                        holder.n_image.setImageBitmap(MainActivity.h_got_images[position]);
+                        break;
+
+                }*/
+
+            }
+
+
+
 
         }
-        }
-        else
+        catch (NullPointerException npe)
         {
+            Log.d("Exception","caught npe");
+
+
             holder.n_image.setImageResource(R.mipmap.images);
-        }
-       holder.n_headline.setText(c_newsDetailses[position].postTitle);
-        holder.n_date.setText(c_newsDetailses[position].postDate);
 
+        }
+       /* try{*/
+            holder.n_headline.setText(c_newsDetailses[position].postTitle);
+            holder.n_date.setText(c_newsDetailses[position].postDate);
+      /*  }
+        catch(NullPointerException npe)
+        {*/
+
+      /*  }*/
 
     }
 
@@ -123,6 +147,27 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public int getItemCount() {
         return c_newsDetailses.length;
     }
+
+    @Override
+    public void OnDownloadImagesCompleted(Bitmap[] bmp) {
+        MainActivity.w_got_images=bmp;
+        showImages(bmp);
+    }
+
+    private void showImages(Bitmap[] bmp) {
+        for(int i=0;i<10;i++)
+        {
+
+        }
+    }
+
+    @Override
+    public void OnDownloadImagesInComplete() {
+        Log.i("Downloading images"," failed.");
+
+    }
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -155,9 +200,16 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         public void onClick(View v) {
 
             int position =getAdapterPosition();
-
+            Intent browserIntent;
          //   Toast.makeText(MainActivity.con,"Clicked: "+position,Toast.LENGTH_SHORT).show();
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(c_newsDetailses[position].postLink));
+            try{  browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(c_newsDetailses[position].postLink));
+
+            }
+            catch (NullPointerException npe)
+            {
+                browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://news.google.co.in/news"));
+            }
+
 
 
             Bundle extras = new Bundle();
@@ -183,6 +235,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
                     R.anim.slide_in_right, R.anim.slide_out_left).toBundle();
 
             browserIntent.putExtra("android.support.customtabs.extra.TOOLBAR_COLOR", Color.parseColor("#0097A7"));
+            browserIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            browserIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             MainActivity.con.startActivity(browserIntent,startBundle);
 

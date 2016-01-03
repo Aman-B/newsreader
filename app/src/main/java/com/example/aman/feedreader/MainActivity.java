@@ -26,7 +26,7 @@ import com.example.aman.feedreader.myadapter.postData;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
 
     //lists of news;
-    public  static  postData[] w_listData=null;
+  /*  public  static  postData[] w_listData=null;
     public  static  postData[] n_listData=null;
     public static  postData[] b_listData=null;
     public static  postData[] sp_listData=null;
@@ -34,11 +34,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static  postData[] t_listData=null;
     public static  postData[] e_listData=null;
     public static  postData[] h_listData=null;
-    public static postData[]  hh_listData=null; //hindi highlights
+    public static postData[]  hh_listData=null; *///hindi highlights
 
     //save returned images from DownloadImages
     public static  Bitmap[] w_got_images= new Bitmap[10];
-    public static  Bitmap[] b_got_images= new Bitmap[10];
+   /* public static  Bitmap[] b_got_images= new Bitmap[10];
     public static  Bitmap[] sp_got_images= new Bitmap[10];
     public static  Bitmap[] sc_got_images= new Bitmap[10];
 
@@ -49,11 +49,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static  Bitmap[] h_got_images= new Bitmap[10];
 
 
-    public static Bitmap[] hh_got_images = new Bitmap[10];
+    public static Bitmap[] hh_got_images = new Bitmap[10];*/
 
 
     public static Context con;
-    public static int async_rssfinished= 0;
     public static ProgressBar pb;
    public static ViewPager viewPager;
 
@@ -61,12 +60,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static android.support.v4.app.FragmentManager spa;
     public static String news_type,news_type2;
     public  static SampleFragmentPagerAdapter sampleFragmentPagerAdapter;
-    public  static SampleFragmenth sfh;
-    public static int RSS_lock;
+
+
     public static int [] RSS_done = new int[10];
 
 
-    public static String net_type;
+ /*   public static String net_type;*/
     public static int rsstime_out, wait_time;
 
     public static String lang="en";

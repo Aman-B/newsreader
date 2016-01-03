@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.example.aman.feedreader.IShowedFragment;
 import com.example.aman.feedreader.MainActivity;
-import com.example.aman.feedreader.NextActivity;
 import com.example.aman.feedreader.OnAsyncTaskCompleted;
 import com.example.aman.feedreader.R;
 import com.example.aman.feedreader.RssDataController2;
@@ -107,10 +106,14 @@ public class PageFragmenthealth extends Fragment implements IShowedFragment, OnA
     @Override
     public void setUpAdapterWithData() {
 
-        newsDetailses = MainActivity.h_listData;
+
         mAdapter = new CardAdapter(newsDetailses,"health");
         mRecyclerView.setAdapter(mAdapter);
-        MainActivity.RSS_done[7]=1;
+        if(newsDetailses.length>1)
+        {
+            MainActivity.RSS_done[7] = 1;
+        }
+
 
         //finished
         ShowViewPager showViewPager = new ShowViewPager();
@@ -125,7 +128,7 @@ public class PageFragmenthealth extends Fragment implements IShowedFragment, OnA
         handler1.postDelayed(new Runnable() {
             @Override
             public void run() {*/
-                if ((MainActivity.h_listData != null)) {
+                if ((newsDetailses != null)) {
                     setUpAdapterWithData();
                 }
                 else
@@ -143,7 +146,7 @@ public class PageFragmenthealth extends Fragment implements IShowedFragment, OnA
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {*/
-                if((MainActivity.h_listData!=null)) {
+                if((newsDetailses!=null)) {
 
                     Log.i("Here are you health? ", "yes");
 
@@ -159,12 +162,18 @@ public class PageFragmenthealth extends Fragment implements IShowedFragment, OnA
     }
 
     @Override
-    public void onAsyncTaskCompleted() {
-    waitAndSetData();
+    public void onAsyncTaskCompleted(postData[] listData) {
+    newsDetailses=listData;
+
+        waitAndSetData();
+
     }
 
     @Override
-    public void onAsyncTaskInComplete() {
+    public void onAsyncTaskInComplete(postData[] listData) {
+        newsDetailses=listData;
         retryDataSetting();
     }
+
+
 }

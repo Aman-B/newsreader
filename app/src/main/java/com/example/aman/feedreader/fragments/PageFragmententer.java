@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.example.aman.feedreader.IShowedFragment;
 import com.example.aman.feedreader.MainActivity;
-import com.example.aman.feedreader.NextActivity;
 import com.example.aman.feedreader.OnAsyncTaskCompleted;
 import com.example.aman.feedreader.R;
 import com.example.aman.feedreader.RssDataController2;
@@ -109,10 +108,13 @@ public class PageFragmententer extends Fragment implements IShowedFragment, OnAs
 
     @Override
     public void setUpAdapterWithData() {
-        newsDetailses =MainActivity.e_listData;
+
         mAdapter = new CardAdapter(newsDetailses,"enter");
         mRecyclerView.setAdapter(mAdapter);
-        MainActivity.RSS_done[5]=1;
+        if(newsDetailses.length>1)
+        {
+            MainActivity.RSS_done[5] = 1;
+        }
 
         //finished
         ShowViewPager showViewPager = new ShowViewPager();
@@ -125,7 +127,7 @@ public class PageFragmententer extends Fragment implements IShowedFragment, OnAs
         handler1.postDelayed(new Runnable() {
             @Override
             public void run() {*/
-                if ((MainActivity.e_listData != null)) {
+                if ((newsDetailses != null)) {
                     setUpAdapterWithData();
                 }
                 else
@@ -143,7 +145,7 @@ public class PageFragmententer extends Fragment implements IShowedFragment, OnAs
             @Override
             public void run() {*/
 
-                if((MainActivity.e_listData!=null)) {
+                if((newsDetailses!=null)) {
 
                     Log.i("Here are you enter? ","yes");
 
@@ -164,12 +166,16 @@ public class PageFragmententer extends Fragment implements IShowedFragment, OnAs
     }
 
     @Override
-    public void onAsyncTaskCompleted() {
+    public void onAsyncTaskCompleted(postData[] listData) {
+
+        newsDetailses=listData;
         waitAndSetData();
     }
 
     @Override
-    public void onAsyncTaskInComplete() {
+    public void onAsyncTaskInComplete(postData[] listData) {
+
+        newsDetailses=listData;
         retryDataSetting();
     }
 }

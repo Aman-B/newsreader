@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.example.aman.feedreader.IShowedFragment;
 import com.example.aman.feedreader.MainActivity;
-import com.example.aman.feedreader.NextActivity;
 import com.example.aman.feedreader.OnAsyncTaskCompleted;
 import com.example.aman.feedreader.R;
 import com.example.aman.feedreader.RssDataController;
@@ -104,11 +103,14 @@ public class PageFragmentsports extends Fragment implements IShowedFragment, OnA
     public void setUpAdapterWithData() {
         Log.i("Here are you sports? ", "yes");
 
-        newsDetailses = MainActivity.sp_listData;
+
         mAdapter = new CardAdapter(newsDetailses, "sports");
         mRecyclerView.setAdapter(mAdapter);
 
-        MainActivity.RSS_done[4] = 1;
+        if(newsDetailses.length>1)
+        {
+            MainActivity.RSS_done[4] = 1;
+        }
         //finished
         ShowViewPager showViewPager = new ShowViewPager();
         showViewPager.show(calling_activity);
@@ -118,7 +120,7 @@ public class PageFragmentsports extends Fragment implements IShowedFragment, OnA
     @Override
     public void retryDataSetting() {
 
-                if ((MainActivity.sp_listData != null)) {
+                if ((newsDetailses != null)) {
                     setUpAdapterWithData();
                 }
                 else
@@ -133,7 +135,7 @@ public class PageFragmentsports extends Fragment implements IShowedFragment, OnA
     @Override
     public void waitAndSetData() {
 
-                if ((MainActivity.sp_listData != null)) {
+                if ((newsDetailses != null)) {
 
                    setUpAdapterWithData();
                 } else {
@@ -145,12 +147,15 @@ public class PageFragmentsports extends Fragment implements IShowedFragment, OnA
     }
 
     @Override
-    public void onAsyncTaskCompleted() {
+    public void onAsyncTaskCompleted(postData[] listData) {
+        newsDetailses=listData;
         waitAndSetData();
     }
 
     @Override
-    public void onAsyncTaskInComplete() {
+    public void onAsyncTaskInComplete(postData[] listData) {
+
+        newsDetailses=listData;
         retryDataSetting();
     }
 }

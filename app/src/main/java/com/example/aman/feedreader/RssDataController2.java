@@ -1,14 +1,10 @@
 package com.example.aman.feedreader;
 
 import android.app.ProgressDialog;
-import android.graphics.Bitmap;
 import android.net.ParseException;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 
-
-import com.example.aman.feedreader.myadapter.DownloadImages;
 
 import com.example.aman.feedreader.myadapter.DownloadImages2;
 import com.example.aman.feedreader.myadapter.postData;
@@ -26,7 +22,6 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Aman  on 10/28/2015.
@@ -313,9 +308,11 @@ public class RssDataController2 extends
         db_data=result;
         //  Log.i("Lel ", MainActivity.con+"---"+R.layout.postitem+"---"+listData);
 
-        DownloadImages2 downimgs = new DownloadImages2();
-        downimgs.execute(image_urls);
-
+       /* DownloadImages2 downimgs = new DownloadImages2();
+        if(image_urls!=null) {
+            downimgs.execute(image_urls);
+        }
+*/
 
 
 
@@ -356,38 +353,31 @@ public class RssDataController2 extends
         //
         //MyProgressDialog. ringProgressDialog.dismiss();
 
-        switch (MainActivity.news_type2)
-        {
-            case "nation":
-                MainActivity.n_listData=listData;
-                Log.i("nation", ""+MainActivity.n_listData);
-                listener.onAsyncTaskCompleted();
-                break;
+        try {
+            if ((listData[0].postTitle != null)) {
 
-            case "tech":
-                MainActivity.t_listData=listData;
-                listener.onAsyncTaskCompleted();
-                break;
 
-            case "enter":
-                MainActivity.e_listData=listData;
-                listener.onAsyncTaskCompleted();
-                break;
+                assignData(MainActivity.news_type2);
+            }
 
-            case "health":
-                MainActivity.h_listData=listData;
-                listener.onAsyncTaskCompleted();
-                break;
-
-            case "high_hin":
-                MainActivity.hh_listData=listData;
-                listener.onAsyncTaskCompleted();
-                break;
-
-        /*    default:
-                MainActivity.n_listData=listData;
-                break;*/
         }
+        catch (NullPointerException npe){
+
+            listData = new postData[1];
+            postData dummydata= new postData();
+            dummydata.postTitle="No news available, currently." +
+                    "Check other news tabs or tap on this to read top stories.";
+            dummydata.postDate="Well, that's a badnews!";
+
+            listData[0]=dummydata;
+
+
+
+            Log.d("Exceuted","Nullpointer exception");
+            listener.onAsyncTaskInComplete(listData);
+
+        }
+
 
         //finish
         Log.i("Again?", "yes");
@@ -401,7 +391,11 @@ public class RssDataController2 extends
 
     }
 
+    private void assignData(String news_type2) {
 
+       listener.onAsyncTaskCompleted(listData);
+
+    }
 
 
 }

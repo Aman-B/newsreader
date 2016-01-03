@@ -4,30 +4,22 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.example.aman.feedreader.fragments.PageFragment;
 import com.example.aman.feedreader.fragments.PageFragmentbusy;
 import com.example.aman.feedreader.fragments.PageFragmententer;
 import com.example.aman.feedreader.fragments.PageFragmenthealth;
+import com.example.aman.feedreader.fragments.PageFragmenthighlights;
 import com.example.aman.feedreader.fragments.PageFragmentnation;
-import com.example.aman.feedreader.fragments.PageFragmentscience;
 import com.example.aman.feedreader.fragments.PageFragmentsports;
-import com.example.aman.feedreader.fragments.PageFragmenttech;
 import com.example.aman.feedreader.fragments.PageFragmentworld;
-import com.example.aman.feedreader.myadapter.DownloadImages;
-
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by aman on 11/12/15.
  */
 public class SampleFragmenth extends FragmentPagerAdapter {
-    final int PAGE_COUNT = 6;
-    private String tabTitles[] = new String[] { MainActivity.con.getResources().getString(R.string.world),
+    final int PAGE_COUNT = 7;
+    private String tabTitles[] = new String[] {MainActivity.con.getResources().getString(R.string.highlights), MainActivity.con.getResources().getString(R.string.world),
             MainActivity.con.getResources().getString(R.string.nation),  MainActivity.con.getResources().getString(R.string.busy),
            /* MainActivity.con.getResources().getString(R.string.tech),*/ MainActivity.con.getResources().getString(R.string.sports),
             MainActivity.con.getResources().getString(R.string.enter)  ,/* MainActivity.con.getResources().getString(R.string.science),*/
@@ -59,9 +51,13 @@ public class SampleFragmenth extends FragmentPagerAdapter {
             case 0:
 
                 Log.i("Goin' in? ", "yes");
+                return new PageFragmenthighlights();
+            case 1:
+
+                Log.i("Goin' in? ", "yes");
                 return new PageFragmentworld();
 
-            case 1:
+            case 2:
 
 
                 Log.i("Goin' in? ", "yes");
@@ -69,7 +65,7 @@ public class SampleFragmenth extends FragmentPagerAdapter {
 
 
 
-            case 2:
+            case 3:
 
 
                 Log.i("Goin' in? ", "yes");
@@ -86,14 +82,14 @@ public class SampleFragmenth extends FragmentPagerAdapter {
 */
 
 
-            case 3:
+            case 4:
 
 
                 Log.i("Goin' in? ", "yes");
                 return new PageFragmentsports();
 
 
-            case 4:
+            case 5:
 
 
                 Log.i("Goin' in? ", "yes");
@@ -105,7 +101,7 @@ public class SampleFragmenth extends FragmentPagerAdapter {
                         return new PageFragmentscience();*/
 
 
-            case 5:
+            case 6:
 
                 Log.i("Goin' in? ", "yes");
                 return new PageFragmenthealth();

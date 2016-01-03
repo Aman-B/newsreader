@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.example.aman.feedreader.IShowedFragment;
 import com.example.aman.feedreader.MainActivity;
-import com.example.aman.feedreader.NextActivity;
 import com.example.aman.feedreader.OnAsyncTaskCompleted;
 import com.example.aman.feedreader.R;
 import com.example.aman.feedreader.RssDataController2;
@@ -153,18 +152,22 @@ MainActivity.viewPager.setVisibility(View.GONE);
         RssDataController2 rc = new RssDataController2(this);
         rc.execute("http://news.google.co.in/news?cf=all&hl="+MainActivity.lang+"&pz=1&ned=in&topic=n&output=rss", "nation");
         prev_lang=MainActivity.lang;
+       // Toast.makeText(MainActivity.con, "excuted rss", Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public void setUpAdapterWithData() {
-        newsDetailses = MainActivity.n_listData;
+
         mAdapter = new CardAdapter(newsDetailses, "nation");
         mRecyclerView.setAdapter(mAdapter);
             Log.i("national", "here");
         ShowViewPager showViewPager = new ShowViewPager();
         showViewPager.show(calling_activity);
-        MainActivity.RSS_done[1] = 1;
+        if(newsDetailses.length>1)
+        {
+            MainActivity.RSS_done[1] = 1;
+        }
     }
 
     @Override
@@ -174,7 +177,7 @@ MainActivity.viewPager.setVisibility(View.GONE);
         handler1.postDelayed(new Runnable() {
             @Override
             public void run() {*/
-                if ((MainActivity.n_listData != null)) {
+                if ((newsDetailses != null)) {
                     setUpAdapterWithData();
                 }
                 else
@@ -193,7 +196,7 @@ MainActivity.viewPager.setVisibility(View.GONE);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {*/
-                if ((MainActivity.n_listData != null)) {
+                if ((newsDetailses!= null)) {
                     setUpAdapterWithData();
                 }
 
@@ -210,13 +213,15 @@ MainActivity.viewPager.setVisibility(View.GONE);
     }
 
     @Override
-    public void onAsyncTaskCompleted() {
+    public void onAsyncTaskCompleted(postData[] listData) {
+        newsDetailses=listData;
         waitAndSetData();
 
     }
 
     @Override
-    public void onAsyncTaskInComplete() {
+    public void onAsyncTaskInComplete(postData[] listData) {
+        newsDetailses=listData;
         retryDataSetting();
     }
 }

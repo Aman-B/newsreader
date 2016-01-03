@@ -14,11 +14,9 @@ import android.widget.Toast;
 
 import com.example.aman.feedreader.IShowedFragment;
 import com.example.aman.feedreader.MainActivity;
-import com.example.aman.feedreader.NextActivity;
 import com.example.aman.feedreader.OnAsyncTaskCompleted;
 import com.example.aman.feedreader.R;
 import com.example.aman.feedreader.RssDataController;
-import com.example.aman.feedreader.Sharedpref;
 import com.example.aman.feedreader.myadapter.CardAdapter;
 import com.example.aman.feedreader.myadapter.postData;
 
@@ -135,6 +133,7 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
     @Override
     public void onShowedFragment(String activity) {
         calling_activity=activity;
+        Log.d("Done2? ", "yo : "+MainActivity.RSS_done[0]);
         if(MainActivity.RSS_done[0]==0)
         {
             Log.i("got showed","yes");
@@ -158,7 +157,7 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {*/
-                if ((MainActivity.w_listData != null))
+                if ((w_newsDetailses!= null))
                 {Log.i("got wait and setup","yes");
                     setUpAdapterWithData();
                 }
@@ -175,10 +174,12 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
 
 
     public void executeRSS() {
+       // Toast.makeText(MainActivity.con,"Exceuted rss",Toast.LENGTH_SHORT).show();
         RssDataController rc = new RssDataController(this);
         rc.execute("http://news.google.co.in/news?cf=all&hl="+MainActivity.lang+"&pz=1&ned=in&topic=w&output=rss", "world");
+        prev_lang=MainActivity.lang;
 
-        Sharedpref sharedpref = new Sharedpref();
+       /* Sharedpref sharedpref = new Sharedpref();*/
 /*
         sharedpref.storeInSharedPref(MainActivity.lang,);
 */
@@ -193,6 +194,8 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
             //TODO : CHECK En-hindi-en condition
             Log.i("lang1 "," "+prev_lang);
             Log.i("lang2 ","" + MainActivity.lang);
+         //   Toast.makeText(MainActivity.con, "Inside showed fragmentworld.", Toast.LENGTH_SHORT).show();
+
             setUpAdapterWithData();
         }
         else
@@ -210,13 +213,18 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
             @Override
             public void run() {*/
 //                Log.i("Datam :", " " + MainActivity.w_listData[0].postTitle);
-                Log.i("Data :", " " + w_newsDetailses);
-                w_newsDetailses = MainActivity.w_listData;
+
+
                 Log.i("Data :", " " + w_newsDetailses);
 
                 mAdapter = new CardAdapter(w_newsDetailses, "world");
                 mRecyclerView.setAdapter(mAdapter);
-                MainActivity.RSS_done[0] = 1;
+//        Log.i("Length",""+MainActivity.w_listData.length);
+                if(w_newsDetailses.length>1)
+                {
+                    MainActivity.RSS_done[0] = 1;
+                }
+                Log.d("Done? ", "yo : "+MainActivity.RSS_done[0]);
                 ShowViewPager showViewPager= new ShowViewPager();
                 showViewPager.show(calling_activity);
 
@@ -233,7 +241,7 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
         handler1.postDelayed(new Runnable() {
             @Override
             public void run() {*/
-                if ((MainActivity.w_listData != null)) {
+                if ((w_newsDetailses != null)) {
                     setUpAdapterWithData();
                 } else {
                     Toast.makeText(MainActivity.con, "No connection, try again.", Toast.LENGTH_SHORT).show();
@@ -249,13 +257,15 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
 
 
 
-    public void onAsyncTaskCompleted(){
+    public void onAsyncTaskCompleted(postData[] listData){
+        w_newsDetailses=listData;
 waitAndSetData();
 
     }
 
     @Override
-    public void onAsyncTaskInComplete() {
+    public void onAsyncTaskInComplete(postData[] listData) {
+        w_newsDetailses=listData;
         retryDataSetting();
     }
 

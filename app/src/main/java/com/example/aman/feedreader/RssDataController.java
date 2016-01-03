@@ -1,15 +1,12 @@
 package com.example.aman.feedreader;
 
 import android.app.ProgressDialog;
-import android.graphics.Bitmap;
 import android.net.ParseException;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 
-import com.example.aman.feedreader.fragments.ShowError;
 import com.example.aman.feedreader.myadapter.DownloadImages;
 
 import com.example.aman.feedreader.myadapter.postData;
@@ -27,7 +24,6 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Aman  on 10/28/2015.
@@ -317,10 +313,10 @@ public class RssDataController extends
         db_data=result;
       //  Log.i("Lel ", MainActivity.con+"---"+R.layout.postitem+"---"+listData);
 
-        DownloadImages downimgs = new DownloadImages();
+      /*  DownloadImages downimgs = new DownloadImages();
         if(image_urls!=null) {
             downimgs.execute(image_urls);
-        }
+        }*/
 
 
 
@@ -362,39 +358,29 @@ public class RssDataController extends
 
         try {
             if ((listData[0].postTitle != null)) {
-                switch (MainActivity.news_type) {
-                    case "world":
-                        MainActivity.w_listData = listData;
-                        listener.onAsyncTaskCompleted();
-                        break;
 
 
-                    case "busy":
-                        MainActivity.b_listData = listData;
-                        listener.onAsyncTaskCompleted();
-                        break;
-
-                    case "sports":
-                        MainActivity.sp_listData = listData;
-                        listener.onAsyncTaskCompleted();
-                        break;
-
-                    case "science":
-                        MainActivity.sc_listData = listData;
-                        listener.onAsyncTaskCompleted();
-                        break;
-
-        /*    default:
-                MainActivity.n_listData=listData;
-                break;*/
-                }
-
+                assignData(MainActivity.news_type);
             }
+
         }
         catch (NullPointerException npe){
-            listener.onAsyncTaskInComplete();
+
+                listData = new postData[1];
+               postData dummydata= new postData();
+                dummydata.postTitle="No news available, currently. " +
+                        "Check other news tabs or tap on this to read top stories.";
+                dummydata.postDate="Well, that's a badnews!";
+
+                listData[0]=dummydata;
+
+
+
+            Log.d("Exceuted","Nullpointer exception");
+            listener.onAsyncTaskInComplete(listData);
 
         }
+
         //finish
         Log.i("Again?", "yes");
         //MainActivity.viewPager.setAdapter(new SampleFragmentPagerAdapter(MainActivity.spa,MainActivity.con));
@@ -407,7 +393,9 @@ public class RssDataController extends
 
     }
 
-
+    private void assignData(String news_type) {
+       listener.onAsyncTaskCompleted(listData);
+    }
 
 
 }

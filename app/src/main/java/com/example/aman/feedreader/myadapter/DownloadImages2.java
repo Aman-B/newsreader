@@ -28,8 +28,17 @@ public class DownloadImages2 extends AsyncTask <String[],URI,Bitmap[]>{
 
         Log.i("Insider:1", "yes");
 
+        MainActivity.w_got_images=bitmap;
 
-        switch (MainActivity.news_type2) {
+      /*  switch (MainActivity.news_type2) {
+
+            case "high":
+                Log.i("Got in?", "h_images " + MainActivity.hh_got_images);
+                MainActivity.hh_got_images=bitmap;
+                break;
+
+
+
             case "nation":
                 Log.i("Got in?", "n_images " + MainActivity.n_got_images);
                 MainActivity.n_got_images =bitmap;
@@ -58,15 +67,7 @@ public class DownloadImages2 extends AsyncTask <String[],URI,Bitmap[]>{
 
                 break;
 
-            case "high_hin":
-                Log.i("Got in?", "h_images " + MainActivity.hh_got_images);
-                MainActivity.hh_got_images=bitmap;
-                break;
-
-
-
-
-        }
+        }*/
 
 
     }

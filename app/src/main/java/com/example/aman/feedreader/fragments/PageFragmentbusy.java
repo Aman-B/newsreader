@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.example.aman.feedreader.IShowedFragment;
 import com.example.aman.feedreader.MainActivity;
-import com.example.aman.feedreader.NextActivity;
 import com.example.aman.feedreader.OnAsyncTaskCompleted;
 import com.example.aman.feedreader.R;
 import com.example.aman.feedreader.RssDataController;
@@ -106,10 +105,13 @@ public class PageFragmentbusy extends Fragment implements IShowedFragment, OnAsy
     public void setUpAdapterWithData() {
         Log.i("Here are you busy? ", "yes");
 
-        newsDetailses = MainActivity.b_listData;
+
         mAdapter = new CardAdapter(newsDetailses, "busy");
         mRecyclerView.setAdapter(mAdapter);
-        MainActivity.RSS_done[2] = 1;
+        if(newsDetailses.length>1)
+        {
+            MainActivity.RSS_done[2] = 1;
+        }
         ShowViewPager showViewPager = new ShowViewPager();
         showViewPager.show(calling_activity);
 
@@ -118,7 +120,7 @@ public class PageFragmentbusy extends Fragment implements IShowedFragment, OnAsy
     @Override
     public void retryDataSetting() {
 
-                if ((MainActivity.b_listData != null)) {
+                if ((newsDetailses!= null)) {
                     setUpAdapterWithData();
                 }
                 else
@@ -134,7 +136,7 @@ public class PageFragmentbusy extends Fragment implements IShowedFragment, OnAsy
     public void waitAndSetData() {
 
 
-                if ((MainActivity.b_listData != null)) {
+                if ((newsDetailses != null)) {
 
                    setUpAdapterWithData();
 
@@ -152,12 +154,14 @@ public class PageFragmentbusy extends Fragment implements IShowedFragment, OnAsy
 
 
     @Override
-    public void onAsyncTaskCompleted() {
+    public void onAsyncTaskCompleted(postData[] listData) {
+        newsDetailses=listData;
         waitAndSetData();
     }
 
     @Override
-    public void onAsyncTaskInComplete() {
+    public void onAsyncTaskInComplete(postData[] listData) {
+        newsDetailses=listData;
         retryDataSetting();
     }
 }

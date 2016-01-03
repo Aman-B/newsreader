@@ -108,7 +108,7 @@ public class PageFragmenttech extends Fragment implements IShowedFragment, OnAsy
             @Override
             public void run() {*/
 
-                if((MainActivity.t_listData!=null))
+                if((newsDetailses!=null))
                 {
                     setUpAdapterWithData();
 
@@ -129,7 +129,7 @@ public class PageFragmenttech extends Fragment implements IShowedFragment, OnAsy
         handler1.postDelayed(new Runnable() {
             @Override
             public void run() {*/
-                if ((MainActivity.t_listData != null)) {
+                if ((newsDetailses!= null)) {
                     setUpAdapterWithData();
                 }
                 else{
@@ -146,11 +146,14 @@ public class PageFragmenttech extends Fragment implements IShowedFragment, OnAsy
 
        Log.i("Here are you tech? ","yes");
 
-        newsDetailses =MainActivity.t_listData;
+
         mAdapter = new CardAdapter(newsDetailses,"tech");
         mRecyclerView.setAdapter(mAdapter);
 
-        MainActivity.RSS_done[3]=1;
+        if(newsDetailses.length>1)
+        {
+            MainActivity.RSS_done[3] = 1;
+        }
         ShowViewPager showViewPager = new ShowViewPager();
         showViewPager.show(calling_activity);
 
@@ -167,12 +170,15 @@ public class PageFragmenttech extends Fragment implements IShowedFragment, OnAsy
 
 
     @Override
-    public void onAsyncTaskCompleted() {
+    public void onAsyncTaskCompleted(postData[] listData) {
+
+        newsDetailses=listData;
         waitAndSetData();
     }
 
     @Override
-    public void onAsyncTaskInComplete() {
+    public void onAsyncTaskInComplete(postData[] listData) {
+        newsDetailses=listData;
         retryDataSetting();
     }
 }

@@ -27,8 +27,9 @@ static boolean  image= false;
 
         Log.i("Insider:1", "yes");
 
+        MainActivity.w_got_images=bitmap;
 
-            switch (MainActivity.news_type) {
+          /*  switch (MainActivity.news_type) {
                 case "world":
                     Log.i("Got in?", "w_images " + MainActivity.w_got_images);
                     MainActivity.w_got_images =bitmap;
@@ -52,7 +53,7 @@ static boolean  image= false;
                     break;
 
             }
-
+*/
 
     }
 

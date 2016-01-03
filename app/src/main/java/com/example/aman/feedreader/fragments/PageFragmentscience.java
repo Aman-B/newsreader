@@ -106,10 +106,13 @@ public class PageFragmentscience extends Fragment implements IShowedFragment, On
     public void setUpAdapterWithData() {
         Log.i("Here are you science? ","yes");
 
-        newsDetailses = MainActivity.sc_listData;
+
         mAdapter = new CardAdapter(newsDetailses,"science");
         mRecyclerView.setAdapter(mAdapter);
-        MainActivity.RSS_done[6]=1;
+        if(newsDetailses.length>1)
+        {
+            MainActivity.RSS_done[6] = 1;
+        }
 
         //finished
         ShowViewPager showViewPager = new ShowViewPager();
@@ -120,7 +123,7 @@ public class PageFragmentscience extends Fragment implements IShowedFragment, On
     @Override
     public void retryDataSetting() {
 
-                if ((MainActivity.sc_listData != null)) {
+                if ((newsDetailses!= null)) {
                     setUpAdapterWithData();
                 }
                 else
@@ -134,7 +137,7 @@ public class PageFragmentscience extends Fragment implements IShowedFragment, On
     @Override
     public void waitAndSetData() {
 
-                if((MainActivity.sc_listData!=null)) {
+                if((newsDetailses!=null)) {
 
                     setUpAdapterWithData();
 
@@ -150,12 +153,15 @@ public class PageFragmentscience extends Fragment implements IShowedFragment, On
     }
 
     @Override
-    public void onAsyncTaskCompleted() {
+    public void onAsyncTaskCompleted(postData[] listData) {
+        newsDetailses=listData;
         waitAndSetData();
     }
 
     @Override
-    public void onAsyncTaskInComplete() {
+    public void onAsyncTaskInComplete(postData[] listData) {
+
+        newsDetailses= listData;
         retryDataSetting();
     }
 }

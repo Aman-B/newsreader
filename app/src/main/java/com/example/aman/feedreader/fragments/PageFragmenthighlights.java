@@ -24,7 +24,7 @@ import com.example.aman.feedreader.myadapter.postData;
  * Created by aman on 11/12/15.
  */
 // In this case, the fragment displays simple text based on the page
-public class PageFragmenthighlightH extends Fragment implements IShowedFragment,OnAsyncTaskCompleted {
+public class PageFragmenthighlights extends Fragment implements IShowedFragment,OnAsyncTaskCompleted {
     public static final String ARG_PAGE = "ARG_PAGE";
 
     private int mPage;
@@ -33,6 +33,7 @@ public class PageFragmenthighlightH extends Fragment implements IShowedFragment,
     RecyclerView.Adapter mAdapter;
     public postData[] newsDetailses=new postData[10];
     private String prev_lang;
+    private String calling_activity;
 
 
     @Override
@@ -114,6 +115,7 @@ MainActivity.viewPager.setVisibility(View.GONE);
 
     @Override
     public void onShowedFragment(String activity) {
+        calling_activity=activity;
         if(MainActivity.RSS_done[9]==0)
         {
             executeRSS();
@@ -131,30 +133,44 @@ MainActivity.viewPager.setVisibility(View.GONE);
 
     @Override
     public void showAlreadySavedData() {
-        Toast.makeText(MainActivity.con, "Inside showed fragment.", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.con, "Inside showed fragment.", Toast.LENGTH_SHORT).show();
+        Log.i("lang1h "," "+prev_lang);
+        Log.i("lang2h ","" + MainActivity.lang);
+        if(MainActivity.lang.equals(prev_lang)) {
+         //   Toast.makeText(MainActivity.con, "Inside showed fragment.", Toast.LENGTH_SHORT).show();
+            setUpAdapterWithData();
+        }
+        else
+        {
 
             executeRSS();
             //waitAndSetData();
-
+        }
     }
 
 
 
     @Override
     public void executeRSS() {
+
         RssDataController2 rc = new RssDataController2(this);
-        rc.execute("http://news.google.co.in/news?cf=all&hl=hi&ned=hi_in&output=rss", "high_hin");
+        rc.execute("http://news.google.co.in/news?cf=all&hl="+MainActivity.lang+"&pz=1&ned=hi_in&output=rss", "high");
         prev_lang=MainActivity.lang;
 
     }
 
     @Override
     public void setUpAdapterWithData() {
-        newsDetailses = MainActivity.n_listData;
-        mAdapter = new CardAdapter(newsDetailses, "nation");
+
+        mAdapter = new CardAdapter(newsDetailses, "high");
         mRecyclerView.setAdapter(mAdapter);
-        MainActivity.viewPager.setVisibility(View.VISIBLE);
-        MainActivity.RSS_done[9] = 1;
+        /*MainActivity.viewPager.setVisibility(View.VISIBLE);*/
+        if(newsDetailses.length>1)
+        {
+            MainActivity.RSS_done[9] = 1;
+        }
+        ShowViewPager showViewPager= new ShowViewPager();
+        showViewPager.show(calling_activity);
     }
 
     @Override
@@ -164,12 +180,14 @@ MainActivity.viewPager.setVisibility(View.GONE);
         handler1.postDelayed(new Runnable() {
             @Override
             public void run() {*/
-        if ((MainActivity.hh_listData != null)) {
+        if ((newsDetailses!= null)) {
             setUpAdapterWithData();
         }
         else
         {
-            Toast.makeText(MainActivity.con, "No adapter for you.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.con, "No connection, try again.", Toast.LENGTH_SHORT).show();
+            MainActivity.viewPager.setVisibility(View.VISIBLE);
+
         }
          /*   }
         }, (MainActivity.rsstime_out - MainActivity.wait_time));*/
@@ -183,7 +201,7 @@ MainActivity.viewPager.setVisibility(View.GONE);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {*/
-        if ((MainActivity.hh_listData != null)) {
+        if ((newsDetailses != null)) {
             setUpAdapterWithData();
         }
 
@@ -200,13 +218,15 @@ MainActivity.viewPager.setVisibility(View.GONE);
     }
 
     @Override
-    public void onAsyncTaskCompleted() {
+    public void onAsyncTaskCompleted(postData[] listData) {
+        newsDetailses=listData;
         waitAndSetData();
 
     }
 
     @Override
-    public void onAsyncTaskInComplete() {
+    public void onAsyncTaskInComplete(postData[] listData) {
+        newsDetailses=listData;
         retryDataSetting();
     }
 }
