@@ -1,0 +1,35 @@
+<resources>
+
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="action_language" translatable="false">Change language</string>
+    <string name="action_rate" translatable="false">Rate App.</string>
+    <string name="action_refresh" translatable="false">Refresh</string>
+
+    <string name="english" translatable="false">English</string>
+    <string name="hindi">Hindi</string>
+
+    <string name="highlights">Highlights</string>
+    <string name="world">Worldwide</string>
+    <string name="nation">Nation</string>
+    <string name="busy">Business</string>
+    <string name="tech">Technology</string>
+    <string name="sports">Sports</string>
+    <string name="enter">Entertainment</string>
+    <string name="science">Science</string>
+    <string name="health">Health</string>
+
+
+    <string name="cancel" translatable="false">Cancel</string>
+
+    <string name="title_section1" translatable="false">Section 1</string>
+    <string name="title_section2" translatable="false">Section 2</string>
+    <string name="title_section3" translatable="false">Section 3</string>
+
+    <string name="action_example" translatable="false">Example action</string>
+    <string name="title_activity_next" translatable="false">NextActivity</string>
+    <string name="app_name" translatable="false">Highlites</string>
+
+</resources>
