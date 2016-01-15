@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-<<<<<<< HEAD
     package="com.amanb.aman.feedreader"
-=======
-    package="com.example.aman.feedreader"
->>>>>>> 3f74bf32c349cf9fec237b2192dc6d025241505d
     android:installLocation="preferExternal">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,11 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-<<<<<<< HEAD
             android:name="com.amanb.aman.feedreader.MainActivity"
-=======
-            android:name=".MainActivity"
->>>>>>> 3f74bf32c349cf9fec237b2192dc6d025241505d
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -31,11 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-<<<<<<< HEAD
             android:name="com.amanb.aman.feedreader.NextActivity"
-=======
-            android:name=".NextActivity"
->>>>>>> 3f74bf32c349cf9fec237b2192dc6d025241505d
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

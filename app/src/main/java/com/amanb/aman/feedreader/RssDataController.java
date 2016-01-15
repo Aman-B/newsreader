@@ -276,7 +276,7 @@ public class RssDataController extends
         } catch (XmlPullParserException e) {
 
 // TODO Auto-generated catch block
-            Toast.makeText(MainActivity.con,"Error occured. Try refreshing.",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(MainActivity.con,"Error occured. Try refreshing.",Toast.LENGTH_SHORT).show();
 
             e.printStackTrace();
         } catch (ParseException e) {

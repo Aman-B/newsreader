@@ -17,28 +17,15 @@
             android:title="Tools" />-->
     </group>
 
-<<<<<<< HEAD
    <item android:title="About app">
         <menu>
         <item android:id="@+id/nav_share" android:icon="@android:drawable/ic_menu_share"
-            android:title="@string/action_rate" />
+            android:title="@string/action_share" />
            <!-- <item android:id="@+id/nav_share" android:icon="@android:drawable/ic_menu_share"
                 android:title="Share" />
             <item android:id="@+id/nav_send" android:icon="@android:drawable/ic_menu_send"
                 android:title="Send" />-->
         </menu>
     </item>
-=======
-   <!--<item android:title="Share">
-        <menu>
-        <item android:id="@+id/nav_share" android:icon="@android:drawable/ic_menu_share"
-            android:title="@string/action_share" />
-           &lt;!&ndash; <item android:id="@+id/nav_share" android:icon="@android:drawable/ic_menu_share"
-                android:title="Share" />
-            <item android:id="@+id/nav_send" android:icon="@android:drawable/ic_menu_send"
-                android:title="Send" />&ndash;&gt;
-        </menu>
-    </item>-->
->>>>>>> 3f74bf32c349cf9fec237b2192dc6d025241505d
 
 </menu>

@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-<<<<<<< HEAD
     signingConfigs {
         config {
             keyAlias 'alias_name'
@@ -14,27 +13,16 @@ android {
     buildToolsVersion "23.0.2"
     defaultConfig {
         applicationId "com.amanb.aman.feedreader"
-=======
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
-
-    defaultConfig {
-        applicationId "com.example.aman.feedreader"
->>>>>>> 3f74bf32c349cf9fec237b2192dc6d025241505d
         minSdkVersion 18
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-<<<<<<< HEAD
         signingConfig signingConfigs.config
-=======
->>>>>>> 3f74bf32c349cf9fec237b2192dc6d025241505d
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-<<<<<<< HEAD
             signingConfig signingConfigs.config
         }
         debug {
@@ -42,9 +30,6 @@ android {
         }
     }
     productFlavors {
-=======
-        }
->>>>>>> 3f74bf32c349cf9fec237b2192dc6d025241505d
     }
 }
 
