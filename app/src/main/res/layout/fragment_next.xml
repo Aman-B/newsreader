@@ -6,7 +6,11 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+<<<<<<< HEAD
     tools:context="com.amanb.aman.feedreader.NextActivity$PlaceholderFragment">
+=======
+    tools:context="com.example.aman.feedreader.NextActivity$PlaceholderFragment">
+>>>>>>> 3f74bf32c349cf9fec237b2192dc6d025241505d
 
     <TextView
         android:id="@+id/section_label"

@@ -3,7 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/newsreader-master.iml" filepath="$PROJECT_DIR$/newsreader-master.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/feedreader.iml" filepath="$PROJECT_DIR$/feedreader.iml" />
+>>>>>>> 3f74bf32c349cf9fec237b2192dc6d025241505d
     </modules>
   </component>
 </project>
