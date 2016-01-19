@@ -1,5 +1,6 @@
 package com.amanb.aman.feedreader.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 
@@ -88,7 +89,7 @@ public class PageFragment extends Fragment implements IShowedFragment{
     }
 
     @Override
-    public void onShowedFragment(String activity) {
+    public void onShowedFragment(String activity, String lang, Context con) {
 
     }
 

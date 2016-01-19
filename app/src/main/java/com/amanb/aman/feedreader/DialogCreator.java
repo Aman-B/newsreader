@@ -4,21 +4,25 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 import java.util.Locale;
 
 /**
  * Created by aman on 24/12/15.
  */
-public class DialogCreator implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class DialogCreator implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
     Dialog dialog;
     Locale myLocale;
@@ -33,15 +37,26 @@ public class DialogCreator implements View.OnClickListener, RadioGroup.OnChecked
         dialog.setTitle("Select language : ");
         dialog.setCancelable(true);
 
-        radioGroup= (RadioGroup)dialog.findViewById(R.id.rg);
-        radioGroup.setOnCheckedChangeListener(this);
+
+       //Spinner
+        Spinner spinner = (Spinner) dialog.findViewById(R.id.spinner);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource
+                (context,R.array.language_array,android.R.layout.simple_spinner_item);
+
+        // Specified the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
+        Button okay= (Button)dialog.findViewById(R.id.ok_button);
+        okay.setOnClickListener(this);
 
 
-
-        RadioButton hindi = (RadioButton) dialog.findViewById(R.id.rb1);
-        RadioButton english =(RadioButton) dialog.findViewById(R.id.rb2);
-        Button done = (Button) dialog.findViewById(R.id.done_button);
-        done.setOnClickListener(this);
+        Button cancel = (Button) dialog.findViewById(R.id.cancel_button);
+        cancel.setOnClickListener(this);
         dialog.show();
 
     }
@@ -51,7 +66,16 @@ public class DialogCreator implements View.OnClickListener, RadioGroup.OnChecked
 
         switch (v.getId())
         {
-            case R.id.done_button:
+            case R.id.cancel_button:
+                dialog.cancel();
+                break;
+
+            case R.id.ok_button:
+                Sharedpref sharedpref = new Sharedpref();
+
+                sharedpref.storeInSharedPref("language",MainActivity.lang,context);
+
+                setLocal(MainActivity.lang,context);
                 dialog.cancel();
                 break;
 
@@ -68,6 +92,8 @@ public class DialogCreator implements View.OnClickListener, RadioGroup.OnChecked
         {
             case 0:
                 MainActivity.lang="hi";
+
+
                // Toast.makeText(MainActivity.con,"selected : "+MainActivity.lang,Toast.LENGTH_SHORT).show();
                 setLocal(MainActivity.lang);
                 break;
@@ -81,18 +107,18 @@ public class DialogCreator implements View.OnClickListener, RadioGroup.OnChecked
 
     }
 
-    private void setLocal(String lang) {
+    public void setLocal(String lang) {
         Log.i("Locale is set",".");
          myLocale = new Locale(lang);
 
-        Resources res = MainActivity.con.getResources();
+        Resources res =context.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
         Log.i("Locale is set", " " + MainActivity.lang);
 
-        choseActivity(MainActivity.lang);
+        choseActivity(lang,context);
 
         refresh.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         refresh.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -103,15 +129,19 @@ public class DialogCreator implements View.OnClickListener, RadioGroup.OnChecked
 
     }
 
-    private void choseActivity(String lang) {
+    private void choseActivity(String lang,Context context) {
         switch (lang)
         {
             case "en":
-                refresh = new Intent(MainActivity.con, MainActivity.class);
+                refresh = new Intent(context, MainActivity.class);
                 break;
 
             case"hi":
-                refresh= new Intent(MainActivity.con,NextActivity.class);
+                refresh= new Intent(context,NextActivity.class);
+                break;
+
+            case"ge":
+                refresh= new Intent(context,NextActivity.class);
                 break;
 
         }
@@ -119,4 +149,66 @@ public class DialogCreator implements View.OnClickListener, RadioGroup.OnChecked
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        String selected_language= parent.getSelectedItem().toString();
+        Log.i("Selected lang ", selected_language );
+
+        switch (selected_language)
+        {
+            case "English":
+                MainActivity.lang="en";
+
+
+                break;
+
+            case "Hindi":
+                MainActivity.lang="hi";
+                break;
+
+            case "German":
+                MainActivity.lang="de";
+                break;
+        }
+
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    public void setLocal(String lang, Context applicationContext) {
+        Log.i("Locale is set","!");
+        context=applicationContext;
+        myLocale = new Locale(lang);
+
+        Resources res =context.getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        Log.i("Locale is set", " " + lang);
+
+        choseActivity(lang,context);
+
+        refresh.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        refresh.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        refresh.putExtra("language", MainActivity.lang);
+        ((Activity)context).finish();
+        context.startActivity(refresh);
+        Log.i("Locale is set", " " + MainActivity.lang);
+
+
+
+
+
+    }
 }

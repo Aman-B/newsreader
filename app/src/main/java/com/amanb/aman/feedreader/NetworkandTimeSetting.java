@@ -11,6 +11,7 @@ import android.telephony.TelephonyManager;
 
 public class NetworkandTimeSetting {
     public  static boolean isOnline=false;
+    public  Context context;
 
     public static String getNetworkClass(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -48,6 +49,7 @@ public class NetworkandTimeSetting {
     }
 
     public boolean isOnline(Context con) {
+        context=con;
         ConnectivityManager cm =
                 (ConnectivityManager) con.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -58,7 +60,7 @@ public class NetworkandTimeSetting {
 
     public void setTimeValues() {
 
-        switch(getNetworkClass(MainActivity.con))
+        switch(getNetworkClass(context))
         {
             case "WIFI":
                 MainActivity.rsstime_out=10000;

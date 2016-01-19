@@ -2,6 +2,7 @@ package com.amanb.aman.feedreader;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static int rsstime_out, wait_time;
 
     public static String lang="en";
+    public static String country="in";
 
   public  static Activity activity;
 
@@ -80,6 +82,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent=getIntent();
+        lang=intent.getStringExtra("language");
+        country=intent.getStringExtra("country");
+
         //checkIfOnlineAndLaunchRss();
         con = getApplicationContext();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -93,8 +99,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         Activity activity = MainActivity.this;
-
-
 
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -175,7 +179,7 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
         Fragment fragment = (Fragment) sampleFragmentPagerAdapter.instantiateItem(viewPager,0);
 
 
-            ((IShowedFragment) fragment).onShowedFragment("main");
+            ((IShowedFragment) fragment).onShowedFragment("main",lang,con);
             }
         },2000);
 
@@ -346,7 +350,7 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
         if(fragment instanceof IShowedFragment)
         {
 
-            ((IShowedFragment) fragment).onShowedFragment("main");
+            ((IShowedFragment) fragment).onShowedFragment("main", lang, con);
         }
 
 

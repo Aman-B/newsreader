@@ -75,33 +75,7 @@
                 android:fontFamily="sans-serif-light"
                 android:layout_below="@+id/news_thumbnail"
                 android:layout_alignParentStart="true" />
-<View
-    android:id="@+id/action_divider"
-    android:layout_width="330dp"
-    android:layout_height="0.2dp"
-    android:paddingRight="10dp"
-    android:paddingEnd="10dp"
-    android:layout_marginRight="20dp"
-    android:layout_marginLeft="20dp"
-    android:background="#cdc8c8"
-    android:layout_alignBottom="@+id/news_headline"
-    android:layout_centerHorizontal="true" />
 
-        <Button
-
-            android:layout_width="35dp"
-            android:layout_height="30dp"
-           android:layout_marginRight="1dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="3dp"
-            android:layout_marginBottom="5dp"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-light"
-            android:background="@drawable/ic_action_shareb"
-            android:id="@+id/share_news"
-            android:textSize="12sp"
-            android:layout_below="@+id/news_headline"
-            android:layout_alignParentEnd="true" />
 
 
     </RelativeLayout>

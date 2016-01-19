@@ -1,5 +1,6 @@
 package com.amanb.aman.feedreader.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 
@@ -32,8 +33,9 @@ public class PageFragmentnation extends Fragment implements IShowedFragment,OnAs
     private LinearLayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
     public postData[] newsDetailses=new postData[10];
-    private String prev_lang;
+    private String prev_lang,current_lang=null;
     private String calling_activity;
+    public Context context;
 
 
     @Override
@@ -114,8 +116,10 @@ MainActivity.viewPager.setVisibility(View.GONE);
     }
 
     @Override
-    public void onShowedFragment(String activity) {
+    public void onShowedFragment(String activity, String lang, Context con) {
     calling_activity=activity;
+        current_lang=lang;
+        context=con;
         if(MainActivity.RSS_done[1]==0)
         {
             executeRSS();
@@ -150,8 +154,7 @@ MainActivity.viewPager.setVisibility(View.GONE);
     @Override
     public void executeRSS() {
         RssDataController2 rc = new RssDataController2(this);
-        rc.execute("http://news.google.co.in/news?cf=all&hl="+MainActivity.lang+"&pz=1&ned=in&topic=n&output=rss", "nation");
-        prev_lang=MainActivity.lang;
+        rc.execute("http://news.google.co.in/news?cf=all&hl="+current_lang+"&pz=1&ned=in&topic=n&output=rss", "nation");
        // Toast.makeText(MainActivity.con, "excuted rss", Toast.LENGTH_SHORT).show();
 
     }
@@ -159,7 +162,7 @@ MainActivity.viewPager.setVisibility(View.GONE);
     @Override
     public void setUpAdapterWithData() {
 
-        mAdapter = new CardAdapter(newsDetailses, "nation");
+        mAdapter = new CardAdapter(newsDetailses, "nation", context);
         mRecyclerView.setAdapter(mAdapter);
             Log.i("national", "here");
         ShowViewPager showViewPager = new ShowViewPager();
@@ -182,7 +185,7 @@ MainActivity.viewPager.setVisibility(View.GONE);
                 }
                 else
                 {
-                    Toast.makeText(MainActivity.con, "No connection, try again.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "No connection, try again.", Toast.LENGTH_SHORT).show();
                 }
          /*   }
         }, (MainActivity.rsstime_out - MainActivity.wait_time));*/

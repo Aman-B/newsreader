@@ -1,5 +1,6 @@
 package com.amanb.aman.feedreader.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 
@@ -32,8 +33,9 @@ public class PageFragmenthighlights extends Fragment implements IShowedFragment,
     private LinearLayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
     public postData[] newsDetailses=new postData[10];
-    private String prev_lang;
+    private String prev_lang,current_lang=null;
     private String calling_activity;
+    public Context context;
 
 
     @Override
@@ -114,8 +116,10 @@ MainActivity.viewPager.setVisibility(View.GONE);
     }
 
     @Override
-    public void onShowedFragment(String activity) {
+    public void onShowedFragment(String activity, String lang, Context con) {
         calling_activity=activity;
+        current_lang=lang;
+        context=con;
         if(MainActivity.RSS_done[9]==0)
         {
             executeRSS();
@@ -154,7 +158,9 @@ MainActivity.viewPager.setVisibility(View.GONE);
     public void executeRSS() {
 
         RssDataController2 rc = new RssDataController2(this);
-        rc.execute("http://news.google.co.in/news?cf=all&hl="+MainActivity.lang+"&pz=1&ned=hi_in&output=rss", "high");
+        //TODO:  check this; if it's working for english.
+        rc.execute("http://news.google.co.in/news?cf=all&hl="+current_lang+"&pz=1&ned=in&output=rss", "high");
+
         prev_lang=MainActivity.lang;
 
     }
@@ -162,7 +168,9 @@ MainActivity.viewPager.setVisibility(View.GONE);
     @Override
     public void setUpAdapterWithData() {
 
-        mAdapter = new CardAdapter(newsDetailses, "high");
+        mAdapter = new CardAdapter(newsDetailses, "high", context);
+        Log.i("mAdapter", " "+mAdapter);
+        Log.i("mRecylerVIew", " "+mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
         /*MainActivity.viewPager.setVisibility(View.VISIBLE);*/
         if(newsDetailses.length>1)
@@ -185,7 +193,7 @@ MainActivity.viewPager.setVisibility(View.GONE);
         }
         else
         {
-            Toast.makeText(MainActivity.con, "No connection, try again.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "No connection, try again.", Toast.LENGTH_SHORT).show();
             MainActivity.viewPager.setVisibility(View.VISIBLE);
 
         }

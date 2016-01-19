@@ -1,6 +1,7 @@
 package com.amanb.aman.feedreader.myadapter;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -46,8 +47,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> im
             "android.support.customtabs.extra.CLOSE_BUTTON_ICON";
 
     public String c_newstype;
-    public CardAdapter(postData[] newsDetailses,String news_type) {
+    public  Context context;
+    public CardAdapter(postData[] newsDetailses, String news_type, Context mcontext) {
         super();
+        context=mcontext;
         c_newsDetailses=newsDetailses;
         c_newstype=news_type;
 
@@ -72,7 +75,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> im
         try {
             if (c_newsDetailses[position].postThumbUrl != null) {
 
-                Picasso.with(MainActivity.con).load(c_newsDetailses[position].postThumbUrl).into(holder.n_image);
+                Picasso.with(context).load(c_newsDetailses[position].postThumbUrl).into(holder.n_image);
              /*   switch (c_newstype)
 
                 {

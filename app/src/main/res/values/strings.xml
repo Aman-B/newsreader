@@ -32,4 +32,15 @@
     <string name="title_activity_next" translatable="false">NextActivity</string>
     <string name="app_name" translatable="false">Highlites</string>
 
+    <string-array name="language_array">
+        <item>English</item>
+        <item>Hindi </item>
+        <item>German</item>
+
+    </string-array>
+
+
+
+
+
 </resources>

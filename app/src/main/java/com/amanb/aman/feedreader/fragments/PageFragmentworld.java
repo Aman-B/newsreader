@@ -1,5 +1,6 @@
 package com.amanb.aman.feedreader.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 
@@ -33,8 +34,9 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
     static RecyclerView.Adapter mAdapter;
     public postData[] w_newsDetailses=new postData[10];
 
-    public String prev_lang=null;
+    public String prev_lang=null,current_lang=null;
     public String calling_activity;
+    public Context mcontext;
 
    /* @Override
     public void onDestroyView() {
@@ -131,8 +133,11 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
     }
 
     @Override
-    public void onShowedFragment(String activity) {
+    public void onShowedFragment(String activity, String lang, Context con) {
         calling_activity=activity;
+        current_lang=lang;
+        mcontext=con;
+
         Log.d("Done2? ", "yo : "+MainActivity.RSS_done[0]);
         if(MainActivity.RSS_done[0]==0)
         {
@@ -176,8 +181,7 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
     public void executeRSS() {
        // Toast.makeText(MainActivity.con,"Exceuted rss",Toast.LENGTH_SHORT).show();
         RssDataController rc = new RssDataController(this);
-        rc.execute("http://news.google.co.in/news?cf=all&hl="+MainActivity.lang+"&pz=1&ned=in&topic=w&output=rss", "world");
-        prev_lang=MainActivity.lang;
+        rc.execute("http://news.google.co.in/news?cf=all&hl="+current_lang+"&pz=1&ned=in&topic=w&output=rss", "world");
 
        /* Sharedpref sharedpref = new Sharedpref();*/
 /*
@@ -185,7 +189,9 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
 */
        /* prev_lang=sharedpref.readFromSharedPref(MainActivity.lang,((Activity)MainActivity.con));*/
         Log.i("langly1 ", " " + prev_lang);
+/*
         Log.i("langly2 ", "" + MainActivity.lang);
+*/
     }
 
     public void showAlreadySavedData() {
@@ -193,7 +199,9 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
         if(MainActivity.lang.equals(prev_lang)) {
             //TODO : CHECK En-hindi-en condition
             Log.i("lang1 "," "+prev_lang);
+/*
             Log.i("lang2 ","" + MainActivity.lang);
+*/
          //   Toast.makeText(MainActivity.con, "Inside showed fragmentworld.", Toast.LENGTH_SHORT).show();
 
             setUpAdapterWithData();
@@ -217,7 +225,7 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
 
                 Log.i("Data :", " " + w_newsDetailses);
 
-                mAdapter = new CardAdapter(w_newsDetailses, "world");
+                mAdapter = new CardAdapter(w_newsDetailses, "world",mcontext);
                 mRecyclerView.setAdapter(mAdapter);
 //        Log.i("Length",""+MainActivity.w_listData.length);
                 if(w_newsDetailses.length>1)
@@ -244,7 +252,7 @@ public class PageFragmentworld extends Fragment implements IShowedFragment, OnAs
                 if ((w_newsDetailses != null)) {
                     setUpAdapterWithData();
                 } else {
-                    Toast.makeText(MainActivity.con, "No connection, try again.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mcontext, "No connection, try again.", Toast.LENGTH_SHORT).show();
 
                         MainActivity.viewPager.setVisibility(View.VISIBLE);
 

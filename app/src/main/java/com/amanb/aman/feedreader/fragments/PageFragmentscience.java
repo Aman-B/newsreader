@@ -1,5 +1,6 @@
 package com.amanb.aman.feedreader.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 
@@ -32,8 +33,9 @@ public class PageFragmentscience extends Fragment implements IShowedFragment, On
     private LinearLayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
     public postData[] newsDetailses=new postData[10];
-    private String prev_lang;
+    private String prev_lang,current_lang=null;
     private String calling_activity;
+    public Context context;
 
 
     @Override
@@ -61,10 +63,11 @@ public class PageFragmentscience extends Fragment implements IShowedFragment, On
     }
 
     @Override
-    public void onShowedFragment(String activity) {
+    public void onShowedFragment(String activity, String lang, Context con) {
 
     calling_activity= activity;
-
+    current_lang=lang;
+     context=con;
 
         if(MainActivity.RSS_done[6]==0)
         {
@@ -83,7 +86,7 @@ public class PageFragmentscience extends Fragment implements IShowedFragment, On
 
     @Override
     public void showAlreadySavedData() {
-        Toast.makeText(MainActivity.con, "Inside showed fragment.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Inside showed fragment.", Toast.LENGTH_SHORT).show();
         if(MainActivity.lang.equals(prev_lang)) {
 
             setUpAdapterWithData();
@@ -98,8 +101,7 @@ public class PageFragmentscience extends Fragment implements IShowedFragment, On
     @Override
     public void executeRSS() {
         RssDataController rc = new RssDataController(this);
-        rc.execute("http://news.google.co.in/news?cf=all&hl="+MainActivity.lang+"&pz=1&ned=in&topic=snc&output=rss", "science");
-        prev_lang=MainActivity.lang;
+        rc.execute("http://news.google.co.in/news?cf=all&hl="+current_lang+"&pz=1&ned=in&topic=snc&output=rss", "science");
     }
 
     @Override
@@ -107,7 +109,7 @@ public class PageFragmentscience extends Fragment implements IShowedFragment, On
         Log.i("Here are you science? ","yes");
 
 
-        mAdapter = new CardAdapter(newsDetailses,"science");
+        mAdapter = new CardAdapter(newsDetailses,"science", context);
         mRecyclerView.setAdapter(mAdapter);
         if(newsDetailses.length>1)
         {

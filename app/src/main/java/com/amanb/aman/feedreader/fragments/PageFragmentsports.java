@@ -1,5 +1,6 @@
 package com.amanb.aman.feedreader.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 
@@ -32,8 +33,9 @@ public class PageFragmentsports extends Fragment implements IShowedFragment, OnA
     private LinearLayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
     public postData[] newsDetailses=new postData[10];
-    private String prev_lang;
+    private String prev_lang,current_lang=null;
     private String calling_activity;
+    public Context context;
 
 
     @Override
@@ -61,9 +63,11 @@ public class PageFragmentsports extends Fragment implements IShowedFragment, OnA
     }
 
     @Override
-    public void onShowedFragment(String activity) {
+    public void onShowedFragment(String activity, String lang, Context con) {
 
         calling_activity=activity;
+        current_lang=lang;
+        context=con;
 
         if(MainActivity.RSS_done[4]==0) {
             executeRSS();
@@ -95,8 +99,7 @@ public class PageFragmentsports extends Fragment implements IShowedFragment, OnA
     @Override
     public void executeRSS() {
         RssDataController rc = new RssDataController(this);
-        rc.execute("http://news.google.co.in/news?cf=all&hl="+MainActivity.lang+"&pz=1&ned=in&topic=s&output=rss","sports");
-        prev_lang=MainActivity.lang;
+        rc.execute("http://news.google.co.in/news?cf=all&hl="+current_lang+"&pz=1&ned=in&topic=s&output=rss","sports");
     }
 
     @Override
@@ -104,7 +107,7 @@ public class PageFragmentsports extends Fragment implements IShowedFragment, OnA
         Log.i("Here are you sports? ", "yes");
 
 
-        mAdapter = new CardAdapter(newsDetailses, "sports");
+        mAdapter = new CardAdapter(newsDetailses, "sports", context);
         mRecyclerView.setAdapter(mAdapter);
 
         if(newsDetailses.length>1)
@@ -125,7 +128,7 @@ public class PageFragmentsports extends Fragment implements IShowedFragment, OnA
                 }
                 else
                 {
-                    Toast.makeText(MainActivity.con, "No connection, try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "No connection, try again", Toast.LENGTH_SHORT).show();
                 }
 
     }

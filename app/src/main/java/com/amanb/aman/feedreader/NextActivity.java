@@ -1,6 +1,7 @@
 package com.amanb.aman.feedreader;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -27,11 +28,16 @@ public class NextActivity extends AppCompatActivity implements NavigationView.On
    public SampleFragmenth sfh;
 public Context con;
     public TabLayout tabLayout;
+    public String lang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next);
+
+        Intent intent=getIntent();
+        lang=intent.getStringExtra("language");
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,7 +72,7 @@ public Context con;
         if(nts.isOnline(con))
         {
 
-            String type= nts.getNetworkClass(MainActivity.con);
+            String type= nts.getNetworkClass(con);
             nts.setTimeValues();
             // Toast.makeText(con,"Network type: "+type,Toast.LENGTH_SHORT).show();
             Log.i("Network type : ", " "+type);
@@ -77,7 +83,7 @@ public Context con;
 
         }   else
         {
-            Toast.makeText(MainActivity.con, " No internet connection. ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(con, " No internet connection. ", Toast.LENGTH_SHORT).show();
             pb.setVisibility(View.GONE);
         }
 
@@ -106,7 +112,7 @@ public Context con;
                 Fragment fragment = (Fragment) sfh.instantiateItem(viewPager, 0);
 
 
-                ((IShowedFragment) fragment).onShowedFragment("next");
+                ((IShowedFragment) fragment).onShowedFragment("next", lang, con);
             }
         }, 2000);
 
@@ -153,7 +159,7 @@ public Context con;
         if(fragment instanceof IShowedFragment)
         {
 
-            ((IShowedFragment) fragment).onShowedFragment("next");
+            ((IShowedFragment) fragment).onShowedFragment("next", lang, con);
         }
 
     }
@@ -192,9 +198,9 @@ public Context con;
             if(nts.isOnline(con))
             {
 
-                String type= nts.getNetworkClass(MainActivity.con);
+                String type= nts.getNetworkClass(con);
                 nts.setTimeValues();
-                Toast.makeText(MainActivity.con, "Network type: " + type, Toast.LENGTH_SHORT).show();
+                Toast.makeText(con, "Network type: " + type, Toast.LENGTH_SHORT).show();
                 Log.i("Network type : ", " " + type);
 
 
@@ -203,7 +209,7 @@ public Context con;
 
             }   else
             {
-                Toast.makeText(MainActivity.con, " No internet connection. ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(con, " No internet connection. ", Toast.LENGTH_SHORT).show();
                 pb.setVisibility(View.GONE);
             }
 

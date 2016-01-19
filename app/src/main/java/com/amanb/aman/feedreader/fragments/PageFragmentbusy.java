@@ -1,5 +1,6 @@
 package com.amanb.aman.feedreader.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 
@@ -32,8 +33,9 @@ public class PageFragmentbusy extends Fragment implements IShowedFragment, OnAsy
     private LinearLayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
     public postData[] newsDetailses = new postData[10];
-    private String prev_lang;
+    private String prev_lang,current_lang=null;
     private String calling_activity;
+    public Context context;
 
 
     @Override
@@ -65,8 +67,11 @@ public class PageFragmentbusy extends Fragment implements IShowedFragment, OnAsy
     }
 
     @Override
-    public void onShowedFragment(String activity) {
+    public void onShowedFragment(String activity, String lang, Context con) {
         calling_activity=activity;
+        current_lang=lang;
+        context=con;
+
         if (MainActivity.RSS_done[2] == 0) {
            executeRSS();
        //     waitAndSetData();
@@ -96,8 +101,8 @@ public class PageFragmentbusy extends Fragment implements IShowedFragment, OnAsy
     @Override
     public void executeRSS() {
         RssDataController rc = new RssDataController(this);
-        rc.execute("http://news.google.co.in/news?cf=all&hl="+MainActivity.lang+"&pz=1&ned=in&topic=b&output=rss", "busy");
-        prev_lang=MainActivity.lang;
+        rc.execute("http://news.google.co.in/news?cf=all&hl="+current_lang+"&pz=1&ned=in&topic=b&output=rss", "busy");
+
 
     }
 
@@ -106,7 +111,7 @@ public class PageFragmentbusy extends Fragment implements IShowedFragment, OnAsy
         Log.i("Here are you busy? ", "yes");
 
 
-        mAdapter = new CardAdapter(newsDetailses, "busy");
+        mAdapter = new CardAdapter(newsDetailses, "busy", context);
         mRecyclerView.setAdapter(mAdapter);
         if(newsDetailses.length>1)
         {
@@ -126,7 +131,7 @@ public class PageFragmentbusy extends Fragment implements IShowedFragment, OnAsy
                 else
                 {
                     Log.i("Here?", "yeess");
-                    Toast.makeText(MainActivity.con, "No connection, try again.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "No connection, try again.", Toast.LENGTH_SHORT).show();
                 }
 
 
