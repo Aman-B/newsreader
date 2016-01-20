@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -58,7 +59,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
    public static TabLayout tabLayout;
     public static android.support.v4.app.FragmentManager spa;
     public static String news_type,news_type2;
-    public  static SampleFragmentPagerAdapter sampleFragmentPagerAdapter;
+    //public  static SampleFragmentPagerAdapter sampleFragmentPagerAdapter;
+    public static FragmentPagerAdapter fragmentPagerAdapter;
 
 
     public static int [] RSS_done = new int[10];
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        Activity activity = MainActivity.this;
+      activity = MainActivity.this;
 
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         viewPager = (ViewPager) findViewById(R.id.viewpager);
          tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 
-NetworkandTimeSetting nts = new NetworkandTimeSetting();
+        NetworkandTimeSetting nts = new NetworkandTimeSetting();
 
         if(nts.isOnline(con))
         {
@@ -155,11 +157,13 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
             sfh=  new SampleFragmenth(getSupportFragmentManager(),MainActivity.this);
             viewPager.setAdapter(sfh);
         }*/
-          /*else*/ {
-            sampleFragmentPagerAdapter = new
-                    SampleFragmentPagerAdapter(getSupportFragmentManager(),MainActivity.this);
-            viewPager.setAdapter(sampleFragmentPagerAdapter);
-        }
+          /*else*/
+            FragmentAdapterSelecter fragmentAdapterSelecter= new FragmentAdapterSelecter();
+       fragmentPagerAdapter= fragmentAdapterSelecter.setFragmentAdapter(getSupportFragmentManager(),activity,lang);
+            Log.i(" Acitivity is : "," main ");
+
+            viewPager.setAdapter(fragmentPagerAdapter );
+
             viewPager.addOnPageChangeListener(this);
             viewPager.setOffscreenPageLimit(1);
 
@@ -176,7 +180,7 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-        Fragment fragment = (Fragment) sampleFragmentPagerAdapter.instantiateItem(viewPager,0);
+        Fragment fragment = (Fragment) fragmentPagerAdapter.instantiateItem(viewPager,0);
 
 
             ((IShowedFragment) fragment).onShowedFragment("main",lang,con);
@@ -346,7 +350,7 @@ NetworkandTimeSetting nts = new NetworkandTimeSetting();
         }
 
         viewPager.setVisibility(View.GONE);
-        Fragment fragment = (Fragment) sampleFragmentPagerAdapter.instantiateItem(viewPager,position);
+        Fragment fragment = (Fragment) fragmentPagerAdapter.instantiateItem(viewPager,position);
         if(fragment instanceof IShowedFragment)
         {
 

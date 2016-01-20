@@ -24,6 +24,7 @@ import java.util.Locale;
  */
 public class DialogCreator implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
+    //TODO: Check german in this;
     Dialog dialog;
     Locale myLocale;
     RadioGroup radioGroup;
@@ -133,14 +134,14 @@ public class DialogCreator implements View.OnClickListener, RadioGroup.OnChecked
         switch (lang)
         {
             case "en":
-                refresh = new Intent(context, MainActivity.class);
+                refresh = new Intent(context, NextActivity.class);
                 break;
 
             case"hi":
                 refresh= new Intent(context,NextActivity.class);
                 break;
 
-            case"ge":
+            case"de":
                 refresh= new Intent(context,NextActivity.class);
                 break;
 

@@ -382,7 +382,7 @@ public class RssDataController extends
         //finish
         Log.i("Again?", "yes");
         //MainActivity.viewPager.setAdapter(new SampleFragmentPagerAdapter(MainActivity.spa,MainActivity.con));
-        Log.i("Again?","val "+MainActivity.sampleFragmentPagerAdapter);
+        //Log.i("Again?","val "+MainActivity.sampleFragmentPagerAdapter);
           // MainActivity.sampleFragmentPagerAdapter.notifyDataSetChanged();
        /* MainActivity.viewPager.setVisibility(View.VISIBLE);
         MainActivity.pb.setVisibility(View.GONE);*/

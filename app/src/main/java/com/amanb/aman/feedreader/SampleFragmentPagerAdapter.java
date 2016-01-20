@@ -21,16 +21,17 @@ import com.amanb.aman.feedreader.fragments.PageFragmentworld;
  */
 public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 9;
-    private String tabTitles[] = new String[] { MainActivity.con.getResources().getString(R.string.highlights),MainActivity.con.getResources().getString(R.string.world),
-            MainActivity.con.getResources().getString(R.string.nation),  MainActivity.con.getResources().getString(R.string.busy),
-            MainActivity.con.getResources().getString(R.string.tech), MainActivity.con.getResources().getString(R.string.sports),
-            MainActivity.con.getResources().getString(R.string.enter)  , MainActivity.con.getResources().getString(R.string.science),
-            MainActivity.con.getResources().getString(R.string.health)};
+    private String tabTitles[];
     private Context context;
 
     public SampleFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
+        tabTitles= new String[] { context.getResources().getString(R.string.highlights),context.getResources().getString(R.string.world),
+                context.getResources().getString(R.string.nation),  context.getResources().getString(R.string.busy),
+                context.getResources().getString(R.string.tech), context.getResources().getString(R.string.sports),
+                context.getResources().getString(R.string.enter)  , context.getResources().getString(R.string.science),
+                context.getResources().getString(R.string.health)};
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.amanb.aman.feedreader;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -29,6 +31,8 @@ public class NextActivity extends AppCompatActivity implements NavigationView.On
 public Context con;
     public TabLayout tabLayout;
     public String lang;
+    public Activity activity;
+    public FragmentPagerAdapter fragmentPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,7 @@ public Context con;
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 
         con= getApplicationContext();
+        activity=NextActivity.this;
 
         NetworkandTimeSetting nts = new NetworkandTimeSetting();
 
@@ -91,9 +96,11 @@ public Context con;
 
     }
     public  void setupnews() {
-        sfh= new SampleFragmenth(getSupportFragmentManager(),NextActivity.this);
+        FragmentAdapterSelecter fragmentAdapterSelecter= new FragmentAdapterSelecter();
+        fragmentPagerAdapter= fragmentAdapterSelecter.setFragmentAdapter(getSupportFragmentManager(),activity,lang);
+        Log.i(" Acitivity is : "," main ");
 
-        viewPager.setAdapter(sfh);
+        viewPager.setAdapter(fragmentPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
 
@@ -109,7 +116,7 @@ public Context con;
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Fragment fragment = (Fragment) sfh.instantiateItem(viewPager, 0);
+                Fragment fragment = (Fragment) fragmentPagerAdapter.instantiateItem(viewPager, 0);
 
 
                 ((IShowedFragment) fragment).onShowedFragment("next", lang, con);
@@ -155,7 +162,7 @@ public Context con;
 
 
         viewPager.setVisibility(View.GONE);
-        Fragment fragment = (Fragment) sfh.instantiateItem(viewPager,position);
+        Fragment fragment = (Fragment) fragmentPagerAdapter.instantiateItem(viewPager,position);
         if(fragment instanceof IShowedFragment)
         {
 

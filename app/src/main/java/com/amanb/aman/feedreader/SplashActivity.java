@@ -45,7 +45,7 @@ public class SplashActivity extends AppCompatActivity{
         handler1.postDelayed(new Runnable() {
             @Override
             public void run() {
-                setLocal(language,countryCode,context);
+                setLocal(language,countryCode,activity);
             }
         },3000);
 
@@ -85,10 +85,10 @@ public class SplashActivity extends AppCompatActivity{
                 break;
 
             case"hi":
-                launchActivity= new Intent(context,NextActivity.class);
+                launchActivity= new Intent(context,MainActivity.class);
                 break;
 
-            case"ge":
+            case"de":
                 launchActivity= new Intent(context,MainActivity.class);
                 break;
 
