@@ -1,4 +1,7 @@
-# Newsreader
+# Highlites
+
+(Project name - newsreader)
+
 An RSS feed based news app. (Android)
 
 The news provided consists of following categories:
